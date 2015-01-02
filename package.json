@@ -17,6 +17,7 @@
     "connect-flash": "0.1.1",
     "express-session": "1.9.1",
     "mongoose": "3.8.21",
-    "connect-mongo": "0.4.1"
+    "connect-mongo": "0.4.1",
+    "validator": "^3.19.0"
   }
 }
