@@ -227,7 +227,9 @@ var getTopicsByQuery = function(req, res, query) {
             current_page: page,
             list_topic_count: limit,
             pages: pages,
-            site_links: config.site_links
+            user: req.session.user,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
         });
     });
 

@@ -11,7 +11,7 @@
 </header>
 
 <nav>
-<span><a title="主页" href="/">home</a></span>
+<span><a title="主页" href="/">主页</a></span>
 <%
     [
         ['technology', '技术'],
@@ -23,13 +23,13 @@
 %>
     <span><a title="<%=text%>" href="/topic/category/<%=value%>"><%=text%></a></span>
 <% }); %>
-<span><a title="标签" href="/tags">tags</a></span>
+<span><a title="标签" href="/tags">标签</a></span>
 <% if (typeof(user) !== 'undefined' && user)  { %>
-  <span><a title="发表" href="/topic/create">post</a></span>
-  <span><a title="登出" href="/logout">logout</a></span>
+  <span><a title="发表" href="/topic/create">发表</a></span>
+  <span><a title="退出" href="/logout">退出</a></span>
 <% } else { %>
-  <span><a title="登录" href="/login">login</a></span>
-  <span><a title="注册" href="/register">register</a></span>
+  <span><a title="登录" href="/login">登录</a></span>
+  <span><a title="注册" href="/register">注册</a></span>
 <% } %>
 </nav>
 
