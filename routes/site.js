@@ -11,7 +11,7 @@ setInterval(function () {
   // 只缓存第一页, page = 1。options 之所以每次都生成是因为 mongoose 查询时，
   // 会改动它
   var query = {};
-  var options = { skip: (1 - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
+  var options = { skip: (1 - 1) * limit, limit: limit, sort: '-top -update_at'};
   var optionsStr = JSON.stringify(query) + JSON.stringify(options);
   Topic.getTopicsByQuery(query, options, function (err, topics) {
     mcache.put(optionsStr, topics);
@@ -32,7 +32,8 @@ exports.index = function (req, res, next) {
         list_topic_count: limit,
         pages: pages,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+        error: req.flash('error').toString(),
+        user: req.session.user
       });
     });
   proxy.fail(next);

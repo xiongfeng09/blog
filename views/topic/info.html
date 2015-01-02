@@ -20,7 +20,7 @@
       </div>
 
     <div>
-        <% if (user._id ==  topic.author_id) { %>
+        <% if (user  && (user._id ==  topic.author_id)) { %>
         <a href='/topic/<%= topic._id %>/edit'>edit</a>
         <a href='/topic/<%= topic._id %>/delete'/>delete</a>
         <% } %>
