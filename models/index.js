@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
-    settings = require('../settings');
+    config = require('../config');
 
-mongoose.connect('mongodb://localhost/blog');
+mongoose.connect('mongodb://' + config.dbPath);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

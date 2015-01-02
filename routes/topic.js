@@ -1,13 +1,17 @@
 var Topic = require('../proxy').Topic;
 var validator = require('validator');
 var tools = require('../common/tools');
+var config = require('../config');
+var mcache = require('memory-cache');
+var eventproxy = require('eventproxy');
 
 //show
 exports.showCreate = function (req, res) {
     res.render('topic/create', {
       user: req.session.user,
       success: req.flash('success').toString(),
-      error: req.flash('error').toString()
+      error: req.flash('error').toString(),
+      categories: config.categories,
     });
 };
 
@@ -21,8 +25,10 @@ exports.create = function (req, res) {
     var editError;
     if (title === '') {
         editError = '标题不能是空的。';
-    } else if (title.length < 5 && title.length > 100) {
+    } else if (title.length < 2 || title.length > 100) {
         editError = '标题字数太多或太少。';
+    } else if (!category) {
+        editError = '必须选择一个版块。';
     }
     // END 验证
     if (editError) {
@@ -31,6 +37,7 @@ exports.create = function (req, res) {
             title: title,
             content: content,
             category: category,
+            categories: config.categories,
             tag: tag
         });
     }
@@ -52,7 +59,7 @@ exports.create = function (req, res) {
   }
 
 //showEdit
-exports.showEdit = function (req, res, next) {
+exports.showEdit = function (req, res) {
     var topic_id = req.params.tid;
         if (topic_id.length !== 24) {
         req.flash('error',  '此话题不存在或已被删除。')
@@ -74,6 +81,7 @@ exports.showEdit = function (req, res, next) {
             title: topic.title,
             content: topic.content,
             category: topic.category,
+            categories: config.categories,
             tag: topic.tag,
             id: topic._id
         });
@@ -81,7 +89,7 @@ exports.showEdit = function (req, res, next) {
 };
 
 //edit
-exports.edit = function (req, res, next) {
+exports.edit = function (req, res) {
     var title = validator.trim(req.body.title);
     var category = req.body.category;
     var tag = req.body.tag;
@@ -91,16 +99,19 @@ exports.edit = function (req, res, next) {
     var editError;
     if (title === '') {
         editError = '标题不能是空的。';
-    } else if (title.length < 5 && title.length > 100) {
+    } else if (title.length < 2 || title.length > 100) {
         editError = '标题字数太多或太少。';
+    } else if (!category) {
+        editError = '必须选择一个版块。';
     }
     // END 验证
     if (editError) {
-        return res.render('topic/edit/' + topic_id, {
+        return res.render('topic/create', {
             error: editError,
             title: title,
             content: content,
             category: category,
+            categories: config.categories,
             tag: tag,
             id: topic_id
         });
@@ -108,11 +119,12 @@ exports.edit = function (req, res, next) {
 
     Topic.getTopicById(topic_id, function (err, topic) {
         if (err) {
-            return res.render('topic/edit/' + topic_id, {
+            return res.render('topic/create'    , {
                 error: err,
                 title: title,
                 content: content,
                 category: category,
+                categories: config.categories,
                 tag: tag,
                 id: topic_id
             });
@@ -135,7 +147,7 @@ exports.edit = function (req, res, next) {
 };
 
 //delete
-exports.delete = function (req, res, next) {
+exports.delete = function (req, res) {
     var topic_id = req.params.tid;
 
     Topic.getTopicById(topic_id, function (err, topic) {
@@ -161,7 +173,7 @@ exports.delete = function (req, res, next) {
 };
 
 //info
-exports.info = function (req, res, next) {
+exports.info = function (req, res) {
     var topic_id = req.params.tid;
     if (topic_id.length !== 24) {
         req.flash('error',  '此话题不存在或已被删除。')
@@ -186,4 +198,73 @@ exports.info = function (req, res, next) {
             error: req.flash('error').toString()
         });
     });
+};
+
+// 主页的缓存工作。主页是需要主动缓存的\
+setInterval(function () {
+    // 只缓存第一页, page = 1。options 之所以每次都生成是因为 mongoose 查询时，
+    // 会改动它
+    var limit = config.list_topic_count;
+    var query = {};
+    var options = { skip: (1 - 1) * limit, limit: limit, sort: '-top -update_at'};
+    var optionsStr = JSON.stringify(query) + JSON.stringify(options);
+    Topic.getTopicsByQuery(query, options, function (err, topics) {
+        mcache.put(optionsStr, topics);
+        return topics;
+    });
+}, 1000 * 120); // 五秒更新一次
+// END 主页的缓存工作
+
+var getTopicsByQuery = function(req, res, query) {
+    var page = parseInt(req.query.page, 10) || 1;
+    page = page > 0 ? page : 1;
+    var limit = config.list_topic_count;
+
+    var proxy = eventproxy.create('topics', 'pages',
+    function (topics, pages) {
+        res.render('index', {
+            topics: topics,
+            current_page: page,
+            list_topic_count: limit,
+            pages: pages,
+            site_links: config.site_links
+        });
+    });
+
+    // 取主题
+    var options = { skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
+    var optionsStr = JSON.stringify(query) + JSON.stringify(options);
+    if (mcache.get(optionsStr)) {
+        proxy.emit('topics', mcache.get(optionsStr));
+    } else {
+        Topic.getTopicsByQuery(query, options, proxy.done('topics', function (topics) {
+            return topics;
+        }));
+    }
+    // END 取主题
+
+    // 取分页数据
+    if (mcache.get('pages')) {
+        proxy.emit('pages', mcache.get('pages'));
+    } else {
+        Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
+            var pages = Math.ceil(all_topics_count / limit);
+            mcache.put(JSON.stringify(query) + 'pages', pages, 1000 * 60 * 1);
+            proxy.emit('pages', pages);
+        }));
+    }
+}
+
+exports.list = function (req, res) {
+    getTopicsByQuery(req, res, {});
+};
+
+exports.listByCategory = function (req, res) {
+    var category_id = req.params.id;
+    getTopicsByQuery(req, res, {'category': category_id});
+};
+
+exports.listByTag = function (req, res) {
+    var tag_id = req.params.id;
+    getTopicsByQuery(req, res, {'tag': tag_id});
 };

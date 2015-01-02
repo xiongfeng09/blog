@@ -1,9 +1,8 @@
 var topic = require('./topic');
 var user = require('./user');
-var site = require('./site');
 
 module.exports = function(app) {
-    app.get('/', site.index);
+    app.get('/', topic.list);
 
     app.get('/register', checkNotLogin);
     app.get('/register', user.showRegister);  // 跳转到注册页面
@@ -36,6 +35,9 @@ module.exports = function(app) {
 
     app.get('/topic/:tid/delete', checkLogin);
     app.get('/topic/:tid/delete', topic.delete);
+
+    app.get('/topic/category/:id', topic.listByCategory);
+    app.get('/topic/tag/:id', topic.listByTag);
 
     function checkLogin(req, res, next) {
         if (!req.session.user) {

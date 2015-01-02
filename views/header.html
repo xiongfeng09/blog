@@ -12,6 +12,17 @@
 
 <nav>
 <span><a title="主页" href="/">home</a></span>
+<%
+    [
+        ['technology', '技术'],
+        ['util', '工具'],
+        ['source', '资源']
+    ].forEach(function (pair) {
+        var value = pair[0];
+        var text = pair[1];
+%>
+    <span><a title="<%=text%>" href="/topic/category/<%=value%>"><%=text%></a></span>
+<% }); %>
 <span><a title="标签" href="/tags">tags</a></span>
 <% if (typeof(user) !== 'undefined' && user)  { %>
   <span><a title="发表" href="/topic/create">post</a></span>

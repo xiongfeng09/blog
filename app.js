@@ -12,7 +12,7 @@ var flash = require('connect-flash');
 //use session
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
-var settings = require('./settings');
+var config = require('./config');
 
 var app = express();
 
@@ -32,13 +32,13 @@ app.use(cookieParser());
 
 // app.use(session);
 app.use(session({
-  secret: settings.cookieSecret,
-  key: settings.db,//cookie name
+  secret: config.cookieSecret,
+  key: config.db,//cookie name
   cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
   store: new MongoStore({
-    db: settings.db,
-    host: settings.host,
-    port: settings.port
+    db: config.db,
+    host: config.host,
+    port: config.port
   }),
     resave: true,
     saveUninitialized: true,

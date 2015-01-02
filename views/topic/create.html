@@ -3,7 +3,20 @@
     标题：<br />
     <input type="text" name='title' value='<%= typeof(title) !== 'undefined' && title || '' %>' /><br />
     分类：<br />
-    <input type="text" name="category" value='<%=(typeof(tag) === 'undefined') ? '' : tag %>'/><br />
+    <select name="category" id="tab-value">
+    <option value="">请选择</option>
+    <%
+        var categoryValue = '';
+        if (typeof(category) !== 'undefined') {
+            categoryValue = category;
+        }
+        categories.forEach(function (pair) {
+            var value = pair[0];
+            var text = pair[1];
+        %>
+        <option value="<%=value%>" <%= categoryValue === value ? 'selected': '' %>><%=text%></option>
+      <%});%>
+    </select><br />
     标签：<br />
     <input type="text" name="tag" value='<%=(typeof(tag) === 'undefined') ? '' : tag %>'/><br />
     正文：<br /> 
