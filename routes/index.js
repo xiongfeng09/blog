@@ -33,6 +33,8 @@ module.exports = function(app) {
     
     app.get('/topic/:tid', topic.index);  // 显示某个话题
 
+    app.get('/topic/:tid/edit', topic.edit); 
+
     function checkLogin(req, res, next) {
         if (!req.session.user) {
           req.flash('error', '未登录!');

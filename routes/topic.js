@@ -46,6 +46,28 @@ exports.create = function (req, res) {
     });
   }
 
+  exports.edit = function (req, res, next) {
+    var topic_id = req.params.tid;
+    if (topic_id.length !== 24) {
+        req.falsh('error',  '此话题不存在或已被删除。')
+        return res.render('/');
+    }
+    Topic.getTopicById(topic_id, function(error, topic){
+        if (error) {
+            req.falsh('error',  '此话题不存在或已被删除。')
+            return res.render('/');
+        }
+
+        res.render('topic/create',{
+            action: "edit",
+            title: topic.title,
+            content: topic.content,
+            category: topic.category,
+            tag: topic.tag
+        });
+    });
+};
+
 exports.index = function (req, res, next) {
     var topic_id = req.params.tid;
     if (topic_id.length !== 24) {
