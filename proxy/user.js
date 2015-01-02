@@ -9,7 +9,7 @@ var User = models.User;
  * @param {String} loginName 登录名
  * @param {Function} callback 回调函数
  */
-exports.getUserByLoginName = function (name, callback) {
+exports.getUserByName = function (name, callback) {
   User.findOne({'name': name}, callback);
 };
 

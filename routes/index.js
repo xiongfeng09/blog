@@ -16,6 +16,12 @@ module.exports = function(app) {
     app.post('/register', checkNotLogin);
     app.post('/register', user.register);  //  注册页面
 
+    app.get('/login', checkNotLogin);
+    app.get('/login', user.showLogin);
+
+    app.post('/login', checkNotLogin);
+    app.post('/login', user.login);  //  注册页面
+
     app.get('/logout', checkLogin);
     app.get('/logout', user.logout);
 
@@ -25,7 +31,7 @@ module.exports = function(app) {
           res.redirect('/login');
         }
         next();
-    }
+    };
 
     function checkNotLogin(req, res, next) {
         if (req.session.user) {
@@ -33,5 +39,5 @@ module.exports = function(app) {
           res.redirect('/');//返回之前的页面
         }
         next();
-    }
+    };
 };

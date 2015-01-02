@@ -20,7 +20,7 @@ exports.register = function (req, res) {
         email = validator.trim(req.body.email).toLowerCase();
 
     // 验证信息的正确性
-    if ([name, password, password_re, email].some(function (item) { return item === ''; })) {
+    if ([name, password, password_re].some(function (item) { return item === ''; })) {
         req.flash('error', '信息不完整!'); 
         return res.redirect('/register');//返回主册页
     }
@@ -39,7 +39,7 @@ exports.register = function (req, res) {
 
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
-        password = md5.update(req.body.password).digest('hex');
+        password_md5= md5.update(password).digest('hex');
     //检查用户名是否已经存在 
     User.getUsersByQuery({'$or': [
         {'name': name},
@@ -50,7 +50,7 @@ exports.register = function (req, res) {
             return res.redirect('/register');//返回注册页
         }
         //如果不存在则新增用户
-        User.newAndSave(name, password, function (err, user) {
+        User.newAndSave(name, password_md5, function (err, user) {
             if (err) {
                 req.flash('error', err);
                 return res.redirect('/register');//注册失败返回主册页
@@ -62,10 +62,41 @@ exports.register = function (req, res) {
     });
 };
 
+//show login
+exports.showLogin = function(req, res){
+    res.render('login', {
+      user: req.session.user,
+      success: req.flash('success').toString(),
+      error: req.flash('error').toString()
+    });
+};
+
+//login
+exports.login = function(req, res){
+    //生成密码的 md5 值
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(validator.trim(req.body.password)).digest('hex');
+    //检查用户是否存在
+    User.getUserByName(req.body.name, function (err, user) {
+      if (!user) {
+        req.flash('error', '用户不存在!');
+        return res.redirect('/login');//用户不存在则跳转到登录页
+      }
+      //检查密码是否一致
+      if (user.password != password) {
+        req.flash('error', '密码错误!');
+        return res.redirect('/login');//密码错误则跳转到登录页
+      }
+      //用户名密码都匹配后，将用户信息存入 session
+      req.session.user = user;
+      req.flash('success', '登陆成功!');
+      res.redirect('/');//登陆成功后跳转到主页
+    });
+};
+
 //log out
 exports.logout = function (req, res) {
     req.session.user = null;
-    req.flash('success', '登出成功!');
+    req.flash('success', '退出成功!');
     res.redirect('/');//登出成功后跳转到主页
-}
-
+};
