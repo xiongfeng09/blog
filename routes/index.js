@@ -1,14 +1,9 @@
 var topic = require('./topic');
 var user = require('./user');
+var site = require('./site');
 
 module.exports = function(app) {
-    app.get('/', function (req, res) {
-        res.render('index', {
-            user: req.session.user,
-            success: req.flash('success').toString(),
-            error: req.flash('error').toString()
-        });
-    });
+    app.get('/', site.index);
 
     app.get('/register', checkNotLogin);
     app.get('/register', user.showRegister);  // 跳转到注册页面

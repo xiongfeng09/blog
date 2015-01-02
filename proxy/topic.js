@@ -38,42 +38,7 @@ exports.getCountByQuery = function (query, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getTopicsByQuery = function (query, opt, callback) {
-  Topic.find(query, '_id', opt, function (err, docs) {
-    if (err) {
-      return callback(err);
-    }
-    if (docs.length === 0) {
-      return callback(null, []);
-    }
-
-    var topics_id = [];
-    for (var i = 0; i < docs.length; i++) {
-      topics_id.push(docs[i]._id);
-    }
-
-    var proxy = new EventProxy();
-    proxy.after('topic_ready', topics_id.length, function (topics) {
-      // 过滤掉空值
-      var filtered = topics.filter(function (item) {
-        return !!item;
-      });
-      return callback(null, filtered);
-    });
-    proxy.fail(callback);
-
-    topics_id.forEach(function (id, i) {
-      exports.getTopicById(id, proxy.group('topic_ready', function (topic, author, last_reply) {
-        // 当id查询出来之后，进一步查询列表时，文章可能已经被删除了
-        // 所以这里有可能是null
-        if (topic) {
-          topic.author = author;
-          topic.reply = last_reply;
-          topic.friendly_create_at = tools.formatDate(topic.create_at, true);
-        }
-        return topic;
-      }));
-    });
-  });
+    Topic.find(query, {}, opt, callback);
 };
 
 // for sitemap

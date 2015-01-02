@@ -1,3 +1,5 @@
 <%- include header.html %>
-index
+<% if (typeof(topics) !== 'undefined' && topics.length > 0) { %>
+        <%- include /topic/list.html %>
+<% } %>
 <%- include footer.html %>
