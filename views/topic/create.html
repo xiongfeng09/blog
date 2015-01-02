@@ -1,5 +1,5 @@
 <%- include ../header.html %>
-<form id='create_topic_form' action='<%= (typeof(action) !== 'undefined' && action === 'edit') ? '/topic/edit' : '/topic/create' %>' method='post'>
+<form id='create_topic_form' action='<%= (typeof(action) !== 'undefined' && action === 'edit') ? ('/topic/' + id + '/edit') : '/topic/create' %>' method='post'>
     标题：<br />
     <input type="text" name='title' value='<%= typeof(title) !== 'undefined' && title || '' %>' /><br />
     分类：<br />

@@ -22,7 +22,7 @@
     <div>
         <% if (user._id ==  topic.author_id) { %>
         <a href='/topic/<%= topic._id %>/edit'>edit</a>
-        <a href='javascript:;' title='删除'/>delete</a>
+        <a href='/topic/<%= topic._id %>/delete'/>delete</a>
         <% } %>
     </div>
 

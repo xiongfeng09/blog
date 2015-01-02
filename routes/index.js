@@ -31,9 +31,16 @@ module.exports = function(app) {
     app.post('/topic/create', checkLogin);
     app.post('/topic/create', topic.create);
     
-    app.get('/topic/:tid', topic.index);  // 显示某个话题
+    app.get('/topic/:tid', topic.info);  // 显示某个话题
 
-    app.get('/topic/:tid/edit', topic.edit); 
+    app.get('/topic/:tid/edit', checkLogin);
+    app.get('/topic/:tid/edit', topic.showEdit); 
+
+    app.post('/topic/:tid/edit', checkLogin);
+    app.post('/topic/:tid/edit', topic.edit);
+
+    app.get('/topic/:tid/delete', checkLogin);
+    app.get('/topic/:tid/delete', topic.delete);
 
     function checkLogin(req, res, next) {
         if (!req.session.user) {
