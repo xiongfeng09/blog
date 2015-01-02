@@ -30,7 +30,9 @@ exports.index = function (req, res, next) {
         topics: topics,
         current_page: page,
         list_topic_count: limit,
-        pages: pages
+        pages: pages,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
       });
     });
   proxy.fail(next);
