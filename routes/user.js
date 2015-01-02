@@ -1,6 +1,5 @@
 var crypto = require('crypto');
 var User = require('../proxy').User;
-var mongoose = require('mongoose');
 var validator = require('validator');
 
 //sign up

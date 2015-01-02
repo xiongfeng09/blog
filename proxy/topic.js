@@ -13,31 +13,7 @@ var User = require('./user');
  * @param {Function} callback 回调函数
  */
 exports.getTopicById = function (id, callback) {
-  var proxy = new EventProxy();
-  var events = ['topic', 'author', 'last_reply'];
-  proxy.assign(events, function (topic, author, last_reply) {
-    return callback(null, topic, author, last_reply);
-  }).fail(callback);
-
-  Topic.findOne({_id: id}, proxy.done(function (topic) {
-    if (!topic) {
-      proxy.emit('topic', null);
-      proxy.emit('author', null);
-      proxy.emit('last_reply', null);
-      return;
-    }
-    proxy.emit('topic', topic);
-
-    User.getUserById(topic.author_id, proxy.done('author'));
-
-    if (topic.last_reply) {
-      Reply.getReplyById(topic.last_reply, proxy.done(function (last_reply) {
-        proxy.emit('last_reply', last_reply);
-      }));
-    } else {
-      proxy.emit('last_reply', null);
-    }
-  }));
+  Topic.findOne({_id: id}, callback)
 };
 
 /**
@@ -148,24 +124,6 @@ exports.getFullTopic = function (id, callback) {
 };
 
 /**
- * 更新主题的最后回复信息
- * @param {String} topicId 主题ID
- * @param {String} replyId 回复ID
- * @param {Function} callback 回调函数
- */
-exports.updateLastReply = function (topicId, replyId, callback) {
-  Topic.findOne({_id: topicId}, function (err, topic) {
-    if (err || !topic) {
-      return callback(err);
-    }
-    topic.last_reply = replyId;
-    topic.last_reply_at = new Date();
-    topic.reply_count += 1;
-    topic.save(callback);
-  });
-};
-
-/**
  * 根据主题ID，查找一条主题
  * @param {String} id 主题ID
  * @param {Function} callback 回调函数
@@ -174,43 +132,25 @@ exports.getTopic = function (id, callback) {
   Topic.findOne({_id: id}, callback);
 };
 
-/**
- * 将当前主题的回复计数减1，删除回复时用到
- * @param {String} id 主题ID
- * @param {Function} callback 回调函数
- */
-exports.reduceCount = function (id, callback) {
-  Topic.findOne({_id: id}, function (err, topic) {
-    if (err) {
-      return callback(err);
-    }
 
-    if (!topic) {
-      return callback(new Error('该主题不存在'));
-    }
-
-    topic.reply_count -= 1;
+exports.newAndSave = function (title, category, tag, content, authorId, callback) {
+    var topic = new Topic();
+    topic.title = title;
+    topic.category = category;
+    topic.tag = tag;
+    topic.content = content;
+    topic.author_id = authorId;
     topic.save(callback);
-  });
 };
 
-exports.newAndSave = function (title, content, tab, authorId, callback) {
-  var topic = new Topic();
-  topic.title = title;
-  topic.content = content;
-  topic.tab = tab;
-  topic.author_id = authorId;
-  topic.save(callback);
-};
-
-exports.getTabs = function (authorId, callback) {
-  Topic.distinct('tab', { 'author_id': authorId }, function(err, tabs) {
+exports.getTags = function (callback) {
+  Topic.distinct('tag', {}, function(err, tags) {
     if (err) {
       return callback(err);
     }
     callback(
       null,
-      tabs.filter(function(e) {
+      tags.filter(function(e) {
         return !!e;
       })
     )

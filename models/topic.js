@@ -9,7 +9,7 @@ var TopicSchema = new Schema({
   visit_count: { type: Number, default: 0 },
   create_at: { type: Date, default: Date.now },
   category: {type: String},
-  tags: {type: String}
+  tag: {type: String}
 });
 
 

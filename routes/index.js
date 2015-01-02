@@ -25,6 +25,14 @@ module.exports = function(app) {
     app.get('/logout', checkLogin);
     app.get('/logout', user.logout);
 
+    app.get('/topic/create', checkLogin);
+    app.get('/topic/create', topic.showCreate);
+
+    app.post('/topic/create', checkLogin);
+    app.post('/topic/create', topic.create);
+    
+    app.get('/topic/:tid', topic.index);  // 显示某个话题
+
     function checkLogin(req, res, next) {
         if (!req.session.user) {
           req.flash('error', '未登录!');
