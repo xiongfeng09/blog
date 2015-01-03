@@ -2,5 +2,9 @@
 <% topics.forEach(function(t){ %>
    <a href="<%= '/topic/' + t.category + '/' + t._id %>" class="<%=(t._id == topic._id )? 'active': ''%>"><%=t.title%></a>
 <% }) %>
+<% if (topics.length > 0 ) {%>
 <%- include info.html %>
+<% } else {%>
+    no result
+<% }%>
 <%- include ../footer.html %>

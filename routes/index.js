@@ -36,7 +36,9 @@ module.exports = function(app) {
     app.get('/topic/:tid/delete', checkLogin);
     app.get('/topic/:tid/delete', topic.delete);
 
-    app.get('/topic/category/:id', topic.listByCategory);
+    app.get('/topic/:categoryId', topic.listByCategory);
+    app.get('/topic/:categoryId/:topcId', topic.listByCategory);
+
     app.get('/topic/tag/:id', topic.listByTag);
 
     function checkLogin(req, res, next) {

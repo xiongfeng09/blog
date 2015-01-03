@@ -256,21 +256,54 @@ exports.list = function (req, res) {
 };
 
 exports.listByCategory = function (req, res) {
-    var category_id = req.params.id;
+    var category_id = req.params.categoryId;
+    var topic_id = req.params.topcId;
     Topic.getTopicsByQuery({'category': category_id}, function(err, topics){
         if (err) {
             req.flash('error',  err)
             return res.redirect('/', err)
         }
 
-        res.render('topic/category', {
-            topics: topics,
-            topic: topics[0],
-            category: category_id,
-            user: req.session.user,
-            success: req.flash('success').toString(),
-            error: req.flash('error').toString()
-        });
+        var send = function(topic){
+            topic.visit_count += 1;
+            topic.save();
+
+            // format date
+            topic.friendly_create_at = tools.formatDate(topic.create_at, true);
+            topic.friendly_update_at = tools.formatDate(topic.update_at, true);
+            return res.render('topic/category', {
+                topics: topics,
+                topic: topic,
+                category: category_id,
+                user: req.session.user,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        };
+
+        if (topics.length > 0) {
+            if (typeof(topic_id) === 'undefined')  {
+                send(topics[0])
+            } else {
+                var topic = null;
+                 topics.forEach(function(t){ 
+                    if (t._id == topic_id) topic = t
+                });
+                if (topic) send(topic)
+                else {
+                    req.flash("no found");
+                    res.redirect('/topic/' + category_id)
+                }
+            }
+        } else {
+            return res.render('topic/category', {
+                topics: topics,
+                category: category_id,
+                user: req.session.user,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        }
     });
 };
 
