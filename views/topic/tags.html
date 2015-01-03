@@ -1,18 +1,23 @@
 <%- include ../header.html %>
-<div class='middle'>
-    <%if (topics.length >  0) {
-        tags_results.forEach(function(record){ %>
-       <a href='<%='/tags/' + record._id%>'
-       class="<%=(tag == record._id)? 'active': ''%>"
-       ><%=record._id%></a><span><%=record.count%></span>
-    <% }) }%>
+<div class='middle left'>
+    <div class='list-group'>
+        <%if (topics.length >  0) {
+            tags_results.forEach(function(record){ %>
+                    <a  href='<%='/tags/' + record._id%>' class="<%=(tag == record._id)? 'list-group-item active': 'list-group-item'%>" >
+                        <span class="badge"><%=record.count%></span>
+                        <%=record._id%>
+                    </a>
+        <% }) }%>
+    </div>
 </div>
 <div class='content'>
-    <% if (topics.length > 0) {%>
-        <div><%=tag%></div>
-        <% topics.forEach(function(topic){ %>
-            <%- include cell.html %>
-       <% })%>
-   <% }%>
+    <div class="list-group">
+        <% if (topics.length > 0) {%>
+            <a href="#" class="list-group-item active"><%=tag%></a>
+            <% topics.forEach(function(topic){ %>
+                <%- include cell.html %>
+           <% })%>
+       <% }%>
+   </div>
 </div>
 <%- include ../footer.html %>

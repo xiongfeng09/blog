@@ -1,7 +1,10 @@
 <%- include ../header.html %>
 <form id='create_topic_form' action='<%= (typeof(action) !== 'undefined' && action === 'edit') ? ('/topic/' + id + '/edit') : '/topic/create' %>' method='post'>
-    标题：<br />
-    <input type="text" name='title' value='<%= typeof(title) !== 'undefined' && title || '' %>' /><br />
+    <div class="input-group">
+    <span class="input-group-addon">标题：</span>
+    <input type="text"  name='title' value='<%= typeof(title) !== 'undefined' && title || '' %>'  class="form-control" placeholder="Username">
+    </div>
+
     分类：<br />
     <select name="category" id="tab-value">
     <option value="">请选择</option>
@@ -20,7 +23,7 @@
     标签：<br />
     <input type="text" name="tag" value='<%=(typeof(tag) === 'undefined') ? '' : tag %>'/><br />
     正文：<br /> 
-    <textarea name="content" rows="20" cols="100" ><%= typeof(content)!== 'undefined' && content || '' %></textarea>
+    <textarea name="content" rows="20"><%= typeof(content)!== 'undefined' && content || '' %></textarea>
     <input type="submit" value="发表" />
 </form>
 <%- include ../footer.html %>

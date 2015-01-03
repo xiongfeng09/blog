@@ -1,12 +1,81 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
-
 .active {
     color: red;
+}
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+html,body{height:100%;}
+body {
+    margin: 0px;
+    padding: 0px;
+}
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+
+.left {
+    float: left;
+}
+
+body .container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    height: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: center;
+    background-color: #1f2c39;
+    width: 9%;
+}
+nav ul {
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+}
+nav ul .active {
+    background-color: #fafaf6;
+}
+nav ul li a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    color: #2a6496;
+    text-decoration: none;
+}
+
+.middle {
+    height: 100%;
+    width: 21%;
+    color: #333;
+    background-color: #fafaf6;
+    overflow: auto;
+}
+.middle .list-group-item.active {
+
+}
+
+.content  {
+    margin-left: 30%;
+    height: 100%;
+}
+
+.topic .title {
+    background-color: #1f2c39;
+    padding: 30px 30px;
+    text-align: center;
+    color: #FFF;
+    font-size: 30px;
+}
+.topic .time {
+    font-size: 15px;
+    text-align: right;
 }

@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" />
-<title>Blog</title>
-<link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8" />
+    <title>Blog</title>
+    <meta name="author" content="<%=config.author.name%>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
 </head>
 <body>
-
-<header>
-</header>
-
-<nav>
-<span>
-    <a title="主页" href="/"
-        class="<%=(typeof(category) === 'undefined' && typeof(tags_results) === 'undefined') ? 'active' : '' %>"
-    >主页</a>
-</span>
-<%
-  config.categories.forEach(function (pair) {
-        var value = pair[0];
-        var text = pair[1];
-%>
-    <span>
-        <a title="<%=text%>" 
-            href="/category/<%=value%>" 
-            class="<%=(typeof(category) !== 'undefined' && category == value) ? 'active' : '' %>"
-        ><%=text%></a>
-    </span>
-<% }); %>
-<span><a title="标签" href="/tags" class="<%=(typeof(tags_results) !== 'undefined' ) ? 'active' : '' %>">标签</a></span>
-<% if (typeof(user) !== 'undefined' && user)  { %>
-  <span><a title="发表" href="/topic/create">发表</a></span>
-  <span><a title="退出" href="/logout">退出</a></span>
-<% } else { %>
-  <span><a title="登录" href="/login">登录</a></span>
-  <span><a title="注册" href="/register">注册</a></span>
-<% } %>
-</nav>
-
-<div class="container">
+    <div class='container clearfix'>
+        <nav class='left'>
+            <ul>
+                <li  class="<%=(typeof(category) === 'undefined' && typeof(tags_results) === 'undefined') ? 'active' : '' %>">
+                    <a title="主页" href="/">主页</a>
+                </li>
+                <%
+                  config.categories.forEach(function (pair) {
+                        var value = pair[0];
+                        var text = pair[1];
+                %>
+                    <li class="<%=(typeof(category) !== 'undefined' && category == value) ? 'active' : '' %>">
+                        <a title="<%=text%>" 
+                            href="/category/<%=value%>" 
+                        ><%=text%></a>
+                    </li>
+                <% }); %>
+                <li class="<%=(typeof(tags_results) !== 'undefined' ) ? 'active' : '' %>"><a title="标签" href="/tags">标签</a></li>
+                <% if (typeof(user) !== 'undefined' && user)  { %>
+                  <li><a title="发表" href="/topic/create">发表</a></li>
+                  <li><a title="退出" href="/logout">退出</a></li>
+                <% } else { %>
+                  <li><a title="登录" href="/login">登录</a></li>
+                  <li><a title="注册" href="/register">注册</a></li>
+                <% } %>
+            </ul>
+        </nav>
 
 <% if (typeof(success) !== 'undefined' && success) { %>
    <div><%= success %></div>
