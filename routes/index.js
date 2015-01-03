@@ -24,7 +24,7 @@ module.exports = function(app) {
 
     app.post('/topic/create', checkLogin);
     app.post('/topic/create', topic.create);
-    
+
     app.get('/topic/:tid', topic.info);  // 显示某个话题
 
     app.get('/topic/:tid/edit', checkLogin);
@@ -36,10 +36,11 @@ module.exports = function(app) {
     app.get('/topic/:tid/delete', checkLogin);
     app.get('/topic/:tid/delete', topic.delete);
 
-    app.get('/topic/:categoryId', topic.listByCategory);
-    app.get('/topic/:categoryId/:topcId', topic.listByCategory);
+    app.get('/category/:categoryId', topic.listByCategory);
+    app.get('/category/:categoryId/:tid', topic.listByCategory);
 
-    app.get('/topic/tag/:id', topic.listByTag);
+    app.get('/tags', topic.listByTag);
+    app.get('/tags/:tagId', topic.listByTag);
 
     function checkLogin(req, res, next) {
         if (!req.session.user) {

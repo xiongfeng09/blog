@@ -1,10 +1,14 @@
 <%- include ../header.html %>
-<% topics.forEach(function(t){ %>
-   <a href="<%= '/topic/' + t.category + '/' + t._id %>" class="<%=(t._id == topic._id )? 'active': ''%>"><%=t.title%></a>
-<% }) %>
-<% if (topics.length > 0 ) {%>
-<%- include info.html %>
-<% } else {%>
-    no result
-<% }%>
+<div class='middle'>
+    <% if (topics.length > 0) { topics.forEach(function(t){ %>
+       <a href="<%= '/category/' + t.category + '/' + t._id %>" class="<%=(t._id == topic._id)? 'active': ''%>"><%=t.title%></a>
+    <% })} %>
+</div>
+<div class='content'>
+    <% if (topics.length > 0 ) {%>
+    <%- include info_blank.html %>
+    <% } else {%>
+        no result
+    <% }%>
+</div>
 <%- include ../footer.html %>

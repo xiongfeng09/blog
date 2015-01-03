@@ -1,34 +1,6 @@
-<div id='content'>
-  <div >
-    <div >
-      <div><%= topic.title %></span>
-
-      <div class="changes">
-        <span>
-          发布于 <%= topic.friendly_create_at %>
-        </span>
-        <span>
-          <%= topic.visit_count %> 次浏览
-        </span>
-        <% if (topic.friendly_create_at != topic.friendly_update_at) { %>
-          <span>
-            最后一次编辑是 <%= topic.friendly_update_at %>
-          </span>
-        <% } %>
-          <span> 标签【<%= topic.tag %>】</span>
-      </div>
-
-    <div>
-        <% if (user  && (user._id ==  topic.author_id)) { %>
-        <a href='/topic/<%= topic._id %>/edit'>edit</a>
-        <a href='/topic/<%= topic._id %>/delete'/>delete</a>
-        <% } %>
-    </div>
-
-    <div class='inner topic'>
-      <div class='topic_content'>
-        <%- topic.content %>
-      </div>
-    </div>
-  </div>
+<%- include ../header.html %>
+<div class='middle'>
+a big image
 </div>
+<%- include info_blank.html %>
+<%- include ../footer.html %>

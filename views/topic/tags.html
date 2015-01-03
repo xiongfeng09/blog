@@ -1,0 +1,18 @@
+<%- include ../header.html %>
+<div class='middle'>
+    <%if (topics.length >  0) {
+        tags_results.forEach(function(record){ %>
+       <a href='<%='/tags/' + record._id%>'
+       class="<%=(tag == record._id)? 'active': ''%>"
+       ><%=record._id%></a><span><%=record.count%></span>
+    <% }) }%>
+</div>
+<div class='content'>
+    <% if (topics.length > 0) {%>
+        <div><%=tag%></div>
+        <% topics.forEach(function(topic){ %>
+            <%- include cell.html %>
+       <% })%>
+   <% }%>
+</div>
+<%- include ../footer.html %>

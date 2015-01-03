@@ -13,7 +13,7 @@
 <nav>
 <span>
     <a title="主页" href="/"
-        class="<%=(typeof(category) === 'undefined' && typeof(tag) === 'undefined') ? 'active' : '' %>"
+        class="<%=(typeof(category) === 'undefined' && typeof(tags_results) === 'undefined') ? 'active' : '' %>"
     >主页</a>
 </span>
 <%
@@ -23,12 +23,12 @@
 %>
     <span>
         <a title="<%=text%>" 
-            href="/topic/<%=value%>" 
+            href="/category/<%=value%>" 
             class="<%=(typeof(category) !== 'undefined' && category == value) ? 'active' : '' %>"
         ><%=text%></a>
     </span>
 <% }); %>
-<span><a title="标签" href="/tags">标签</a></span>
+<span><a title="标签" href="/tags" class="<%=(typeof(tags_results) !== 'undefined' ) ? 'active' : '' %>">标签</a></span>
 <% if (typeof(user) !== 'undefined' && user)  { %>
   <span><a title="发表" href="/topic/create">发表</a></span>
   <span><a title="退出" href="/logout">退出</a></span>
@@ -38,7 +38,7 @@
 <% } %>
 </nav>
 
-<article>
+<div class="container">
 
 <% if (typeof(success) !== 'undefined' && success) { %>
    <div><%= success %></div>

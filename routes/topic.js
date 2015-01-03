@@ -257,7 +257,7 @@ exports.list = function (req, res) {
 
 exports.listByCategory = function (req, res) {
     var category_id = req.params.categoryId;
-    var topic_id = req.params.topcId;
+    var topic_id = req.params.tid;
     Topic.getTopicsByQuery({'category': category_id}, function(err, topics){
         if (err) {
             req.flash('error',  err)
@@ -292,7 +292,7 @@ exports.listByCategory = function (req, res) {
                 if (topic) send(topic)
                 else {
                     req.flash("no found");
-                    res.redirect('/topic/' + category_id)
+                    res.redirect('/category/' + category_id)
                 }
             }
         } else {
@@ -308,8 +308,31 @@ exports.listByCategory = function (req, res) {
 };
 
 exports.listByTag = function (req, res) {
-    Topic.groupByTag(function(error, result){
-        console.log(error)
-        console.log(result)
+    var tagId = req.params.tagId;
+    Topic.groupByTag(function(err, results) {
+        if (err) {
+            req.flash('error',  err)
+            return res.redirect('/tags', err)
+        }
+
+        var topics = null;
+         if (typeof(tagId) === 'undefined')  {
+            tagId = results[0]._id;
+            topics = results[0].topics;
+         } else {
+            results.forEach(function(record){
+                if (record._id == tagId)
+                    topics = record.topics
+            });
+         }
+
+        res.render('topic/tags',{
+            tags_results: results,
+            topics: topics,
+            tag: tagId,
+            user: req.session.user,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+        })
     });
 };
