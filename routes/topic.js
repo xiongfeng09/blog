@@ -10,8 +10,7 @@ exports.showCreate = function (req, res) {
     res.render('topic/create', {
       user: req.session.user,
       success: req.flash('success').toString(),
-      error: req.flash('error').toString(),
-      categories: config.categories,
+      error: req.flash('error').toString()
     });
 };
 
@@ -37,7 +36,6 @@ exports.create = function (req, res) {
             title: title,
             content: content,
             category: category,
-            categories: config.categories,
             tag: tag
         });
     }
@@ -48,7 +46,6 @@ exports.create = function (req, res) {
                 error: err,
                 title: title,
                 content: content,
-                category: category,
                 tag: tag
             });
         }
@@ -81,7 +78,6 @@ exports.showEdit = function (req, res) {
             title: topic.title,
             content: topic.content,
             category: topic.category,
-            categories: config.categories,
             tag: topic.tag,
             id: topic._id
         });
@@ -111,7 +107,6 @@ exports.edit = function (req, res) {
             title: title,
             content: content,
             category: category,
-            categories: config.categories,
             tag: tag,
             id: topic_id
         });
@@ -124,7 +119,6 @@ exports.edit = function (req, res) {
                 title: title,
                 content: content,
                 category: category,
-                categories: config.categories,
                 tag: tag,
                 id: topic_id
             });
@@ -215,7 +209,7 @@ setInterval(function () {
 }, 1000 * 120); // 五秒更新一次
 // END 主页的缓存工作
 
-var getTopicsByQuery = function(req, res, query) {
+var paginateTopicsByQuery = function(req, res, query) {
     var page = parseInt(req.query.page, 10) || 1;
     page = page > 0 ? page : 1;
     var limit = config.list_topic_count;
@@ -258,15 +252,31 @@ var getTopicsByQuery = function(req, res, query) {
 }
 
 exports.list = function (req, res) {
-    getTopicsByQuery(req, res, {});
+    paginateTopicsByQuery(req, res, {});
 };
 
 exports.listByCategory = function (req, res) {
     var category_id = req.params.id;
-    getTopicsByQuery(req, res, {'category': category_id});
+    Topic.getTopicsByQuery({'category': category_id}, function(err, topics){
+        if (err) {
+            req.flash('error',  err)
+            return res.redirect('/', err)
+        }
+
+        res.render('topic/category', {
+            topics: topics,
+            topic: topics[0],
+            category: category_id,
+            user: req.session.user,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+        });
+    });
 };
 
 exports.listByTag = function (req, res) {
-    var tag_id = req.params.id;
-    getTopicsByQuery(req, res, {'tag': tag_id});
+    Topic.groupByTag(function(error, result){
+        console.log(error)
+        console.log(result)
+    });
 };

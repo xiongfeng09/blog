@@ -1,0 +1,6 @@
+<%- include ../header.html %>
+<% topics.forEach(function(t){ %>
+   <a href="<%= '/topic/' + t.category + '/' + t._id %>" class="<%=(t._id == topic._id )? 'active': ''%>"><%=t.title%></a>
+<% }) %>
+<%- include info.html %>
+<%- include ../footer.html %>

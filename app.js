@@ -47,6 +47,9 @@ app.use(session({
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// set static,
+app.locals.config = config;
+
 routes(app);
 
 app.set('port', process.env.PORT || 3000);

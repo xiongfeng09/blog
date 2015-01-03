@@ -47,48 +47,6 @@ exports.getLimit5w = function (callback) {
 };
 
 /**
- * 获取所有信息的主题
- * Callback:
- * - err, 数据库异常
- * - message, 消息
- * - topic, 主题
- * - author, 主题作者
- * - replies, 主题的回复
- * @param {String} id 主题ID
- * @param {Function} callback 回调函数
- */
-exports.getFullTopic = function (id, callback) {
-  var proxy = new EventProxy();
-  var events = ['topic', 'author', 'replies'];
-  proxy
-    .assign(events, function (topic, author, replies) {
-      callback(null, '', topic, author, replies);
-    })
-    .fail(callback);
-
-  Topic.findOne({_id: id}, proxy.done(function (topic) {
-    if (!topic) {
-      proxy.unbind();
-      return callback(null, '此话题不存在或已被删除。');
-    }
-    at.linkUsers(topic.content, proxy.done('topic', function (str) {
-      topic.content = str;
-      return topic;
-    }));
-
-    User.getUserById(topic.author_id, proxy.done(function (author) {
-      if (!author) {
-        proxy.unbind();
-        return callback(null, '话题的作者丢了。');
-      }
-      proxy.emit('author', author);
-    }));
-
-    Reply.getRepliesByTopicId(topic._id, proxy.done('replies'));
-  }));
-};
-
-/**
  * 根据主题ID，查找一条主题
  * @param {String} id 主题ID
  * @param {Function} callback 回调函数
@@ -109,16 +67,19 @@ exports.newAndSave = function (title, category, tag, content, authorId, callback
 };
 
 exports.getTags = function (callback) {
-  Topic.distinct('tag', {}, function(err, tags) {
-    if (err) {
-      return callback(err);
-    }
-    callback(
-      null,
-      tags.filter(function(e) {
-        return !!e;
-      })
-    )
-  });
+    Topic.distinct('tag', {}, function(err, tags) {
+        if (err) {
+          return callback(err);
+        }
+        callback(
+          null,
+          tags.filter(function(e) {
+            return !!e;
+          })
+        )
+    });
 };
 
+exports.groupByTag = function(callback) {
+    Topic.aggregate().group({ '_id': '$tag', 'count': {$sum: 1}}).exec(callback);
+};
