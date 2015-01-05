@@ -316,7 +316,7 @@ exports.listByTag = function (req, res) {
         }
 
         var topics = null;
-         if (typeof(tagId) === 'undefined')  {
+         if (typeof(tagId) === 'undefined' && results.length > 0)  {
             tagId = results[0]._id;
             topics = results[0].topics;
          } else {
