@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/bootstrap.css">
 </head>
 <body>
-    <div class='container clearfix'>
+    <div class='container-fluid clearfix'>
         <nav class='left'>
             <ul>
                 <li  class="<%=(typeof(category) === 'undefined' && typeof(tags_results) === 'undefined') ? 'active' : '' %>">
@@ -38,8 +38,8 @@
         </nav>
 
 <% if (typeof(success) !== 'undefined' && success) { %>
-   <div><%= success %></div>
+   <div class="alert alert-success" role="alert"><%= success %></div>
 <% } %>
 <% if (typeof(error) !== 'undefined' && error) { %>
-  <div><%= error %> </div>
+  <div class="alert alert-warning" role="alert"><%= error %> </div>
 <% } %>
