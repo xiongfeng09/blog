@@ -1,4 +1,4 @@
-<a  href='/category/<%= topic.category + '/' + topic._id %>' title='<%= topic.title %>' class="list-group-item">
+<a  href='/topic/<%=topic._id %>' title='<%= topic.title %>' class="list-group-item">
     <span class='badge'><%= topic.create_at %></span>
     <%= topic.title %>
 </a>

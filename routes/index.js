@@ -3,7 +3,6 @@ var user = require('./user');
 
 module.exports = function(app) {
     app.get('/', topic.list);
-
     app.get('/register', checkNotLogin);
     app.get('/register', user.showRegister);  // 跳转到注册页面
 
@@ -35,12 +34,6 @@ module.exports = function(app) {
 
     app.get('/topic/:tid/delete', checkLogin);
     app.get('/topic/:tid/delete', topic.delete);
-
-    app.get('/category/:categoryId', topic.listByCategory);
-    app.get('/category/:categoryId/:tid', topic.listByCategory);
-
-    app.get('/tags', topic.listByTag);
-    app.get('/tags/:tagId', topic.listByTag);
 
     function checkLogin(req, res, next) {
         if (!req.session.user) {

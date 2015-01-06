@@ -7,14 +7,11 @@ var eventproxy = require('eventproxy');
 
 //show
 exports.showCreate = function (req, res) {
-    getNavs(function(navs){
-        res.render('topic/create', {
-          user: req.session.user,
-          success: req.flash('success').toString(),
-          error: req.flash('error').toString(),
-          nav: navs
-        });
-    })
+    res.render('topic/create', {
+      user: req.session.user,
+      success: req.flash('success').toString(),
+      error: req.flash('error').toString()
+    });
 };
 
 //create
@@ -258,104 +255,11 @@ exports.list = function (req, res) {
     paginateTopicsByQuery(req, res, {});
 };
 
-exports.listByCategory = function (req, res) {
-    var category_id = req.params.categoryId;
-    var topic_id = req.params.tid;
-    Topic.getTopicsByQuery({'category': category_id}, function(err, topics){
-        if (err) {
-            req.flash('error',  err)
-            return res.redirect('/', err)
-        }
-
-        var send = function(topic){
-            topic.visit_count += 1;
-            topic.save();
-
-            // format date
-            topic.friendly_create_at = tools.formatDate(topic.create_at, true);
-            topic.friendly_update_at = tools.formatDate(topic.update_at, true);
-            return res.render('topic/category', {
-                topics: topics,
-                topic: topic,
-                category: category_id,
-                user: req.session.user,
-                success: req.flash('success').toString(),
-                error: req.flash('error').toString()
-            });
-        };
-
-        if (topics.length > 0) {
-            if (typeof(topic_id) === 'undefined')  {
-                send(topics[0])
-            } else {
-                var topic = null;
-                 topics.forEach(function(t){ 
-                    if (t._id == topic_id) topic = t
-                });
-                if (topic) send(topic)
-                else {
-                    req.flash("no found");
-                    res.redirect('/category/' + category_id)
-                }
-            }
-        } else {
-            return res.render('topic/category', {
-                topics: topics,
-                category: category_id,
-                user: req.session.user,
-                success: req.flash('success').toString(),
-                error: req.flash('error').toString()
-            });
-        }
-    });
-};
-
-exports.listByTag = function (req, res) {
-    var tagId = req.params.tagId;
-    Topic.groupByTag(function(err, results) {
-        if (err) {
-            req.flash('error',  err)
-            return res.redirect('/tags', err)
-        }
-
-        var topics = null;
-         if (typeof(tagId) === 'undefined' && results.length > 0)  {
-            tagId = results[0]._id;
-            topics = results[0].topics;
-         } else {
-            results.forEach(function(record){
-                if (record._id == tagId)
-                    topics = record.topics
-            });
-         }
-
-        res.render('topic/tags',{
-            tags_results: results,
-            topics: topics,
-            tag: tagId,
-            user: req.session.user,
-            success: req.flash('success').toString(),
-            error: req.flash('error').toString()
-        })
-    });
-};
-
-// Topic.aggregate().group({ '_id': '$tag', 'count': {$sum: 1}, 'topics':{$push: '$$ROOT'}}).exec(callback);
-// 主页的缓存工作。主页是需要主动缓存的\
-setInterval(function () {
-    // 只缓存第一页, page = 1。options 之所以每次都生成是因为 mongoose 查询时，
-    // 会改动它
-
-    // mcache.put('navs', getNavs);
-}, 1000 * 120); // 五秒更新一次
-// END 主页的缓存工作
-
 var getNavs = function(callback) {
     var navs = {};
     var ep = eventproxy.create("categories", "tags", function (categories, tags) {
         navs.categories = categories;
         navs.tags = tags;
-
         callback(navs)
     });
     Topic.groupByTag(function(err, results) {
@@ -381,4 +285,14 @@ var getNavs = function(callback) {
         })
         ep.emit("categories", categories);
     });
+};
+
+exports.setNavs = function(app){
+    if(mcache.get('navs')) {
+        app.locals.navs = mcache.get('navs')
+    } else {
+        getNavs(function(navs){
+            app.locals.navs = navs;
+        });
+    }
 };

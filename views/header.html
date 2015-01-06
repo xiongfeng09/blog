@@ -7,6 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
+      <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+  <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class='container-fluid clearfix'>
@@ -21,12 +25,11 @@
                         var text = pair[1];
                 %>
                     <li class="<%=(typeof(category) !== 'undefined' && category == value) ? 'active' : '' %>">
-                        <a title="<%=text%>" 
-                            href="/category/<%=value%>" 
+                        <a data='tab' href="#<%=value%>" 
                         ><%=text%></a>
                     </li>
                 <% }); %>
-                <li class="<%=(typeof(tags_results) !== 'undefined' ) ? 'active' : '' %>"><a title="标签" href="/tags">标签</a></li>
+                <li class="<%=(typeof(tags_results) !== 'undefined' ) ? 'active' : '' %>"><a href="#tags" data='tab'>标签</a></li>
                 <% if (typeof(user) !== 'undefined' && user)  { %>
                   <li><a title="发表" href="/topic/create">发表</a></li>
                   <li><a title="退出" href="/logout">退出</a></li>
@@ -36,10 +39,36 @@
                 <% } %>
             </ul>
         </nav>
+        <div class='middle left tab-content'>
+            <% if (typeof(navs) !== 'undefined' && navs) { 
+                navs.categories.forEach(function(data){ 
+                    var name = data.name;
+                    var topics = data.topics;
+                %>
+                <span id='<%=name%>' class='tab-pane fade' >
+                    <%topics.forEach(function(t){%>
+                    <a class='list-group-item'  href="<%= '/topic/' + t._id %>"><%=t.title%></a>
+                    <%})%>
+                </span>
+                <% }) ;%>
 
-<% if (typeof(success) !== 'undefined' && success) { %>
-   <div class="alert alert-success" role="alert"><%= success %></div>
-<% } %>
-<% if (typeof(error) !== 'undefined' && error) { %>
-  <div class="alert alert-warning" role="alert"><%= error %> </div>
-<% } %>
+                <span id='tags' class='tab-pane fade' >
+                    <% navs.tags.forEach(function(data){ 
+                        var name = data.name;
+                        var count = data.count;
+                        var topics = data.topics;
+                    %>
+                        <a  href='' class="list-group-item" >
+                            <span class="badge"><%=count%></span>
+                            <%=name%>
+                        </a>
+                    <%});%>
+                </span>
+           <% } %>
+        </div>
+        <% if (typeof(success) !== 'undefined' && success) { %>
+           <div class="alert alert-success" role="alert"><%= success %></div>
+        <% } %>
+        <% if (typeof(error) !== 'undefined' && error) { %>
+          <div class="alert alert-warning" role="alert"><%= error %> </div>
+        <% } %>

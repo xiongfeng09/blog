@@ -1,29 +1,31 @@
 <%- include ../header.html %>
-<form id='create_topic_form' action='<%= (typeof(action) !== 'undefined' && action === 'edit') ? ('/topic/' + id + '/edit') : '/topic/create' %>' method='post'>
-    <div class="input-group">
-    <span class="input-group-addon">标题：</span>
-    <input type="text"  name='title' value='<%= typeof(title) !== 'undefined' && title || '' %>'  class="form-control" placeholder="Username">
-    </div>
+<div class='content'>
+    <form id='create_topic_form' action='<%= (typeof(action) !== 'undefined' && action === 'edit') ? ('/topic/' + id + '/edit') : '/topic/create' %>' method='post'>
+        <div class="input-group">
+        <span class="input-group-addon">标题：</span>
+        <input type="text"  name='title' value='<%= typeof(title) !== 'undefined' && title || '' %>'  class="form-control" placeholder="Username">
+        </div>
 
-    分类：<br />
-    <select name="category" id="tab-value">
-    <option value="">请选择</option>
-    <%
-        var categoryValue = '';
-        if (typeof(category) !== 'undefined') {
-            categoryValue = category;
-        }
-        config.categories.forEach(function (pair) {
-            var value = pair[0];
-            var text = pair[1];
-        %>
-        <option value="<%=value%>" <%= categoryValue === value ? 'selected': '' %>><%=text%></option>
-      <%});%>
-    </select><br />
-    标签：<br />
-    <input type="text" name="tag" value='<%=(typeof(tag) === 'undefined') ? '' : tag %>'/><br />
-    正文：<br /> 
-    <textarea name="content" rows="20"><%= typeof(content)!== 'undefined' && content || '' %></textarea>
-    <input type="submit" value="发表" />
-</form>
-<%- include ../footer.html %>
+        分类：<br />
+        <select name="category" id="tab-value">
+        <option value="">请选择</option>
+        <%
+            var categoryValue = '';
+            if (typeof(category) !== 'undefined') {
+                categoryValue = category;
+            }
+            config.categories.forEach(function (pair) {
+                var value = pair[0];
+                var text = pair[1];
+            %>
+            <option value="<%=value%>" <%= categoryValue === value ? 'selected': '' %>><%=text%></option>
+          <%});%>
+        </select><br />
+        标签：<br />
+        <input type="text" name="tag" value='<%=(typeof(tag) === 'undefined') ? '' : tag %>'/><br />
+        正文：<br /> 
+        <textarea name="content" rows="20"><%= typeof(content)!== 'undefined' && content || '' %></textarea>
+        <input type="submit" value="发表" />
+    </form>
+    <%- include ../footer.html %>
+</div>

@@ -49,7 +49,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // set static,
 app.locals.config = config;
+//test
+var topic = require('./routes/topic');
 
+topic.setNavs(app);
 routes(app);
 
 app.set('port', process.env.PORT || 3000);
