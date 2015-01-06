@@ -7,11 +7,14 @@ var eventproxy = require('eventproxy');
 
 //show
 exports.showCreate = function (req, res) {
-    res.render('topic/create', {
-      user: req.session.user,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
-    });
+    getNavs(function(navs){
+        res.render('topic/create', {
+          user: req.session.user,
+          success: req.flash('success').toString(),
+          error: req.flash('error').toString(),
+          nav: navs
+        });
+    })
 };
 
 //create
@@ -334,5 +337,48 @@ exports.listByTag = function (req, res) {
             success: req.flash('success').toString(),
             error: req.flash('error').toString()
         })
+    });
+};
+
+// Topic.aggregate().group({ '_id': '$tag', 'count': {$sum: 1}, 'topics':{$push: '$$ROOT'}}).exec(callback);
+// 主页的缓存工作。主页是需要主动缓存的\
+setInterval(function () {
+    // 只缓存第一页, page = 1。options 之所以每次都生成是因为 mongoose 查询时，
+    // 会改动它
+
+    // mcache.put('navs', getNavs);
+}, 1000 * 120); // 五秒更新一次
+// END 主页的缓存工作
+
+var getNavs = function(callback) {
+    var navs = {};
+    var ep = eventproxy.create("categories", "tags", function (categories, tags) {
+        navs.categories = categories;
+        navs.tags = tags;
+
+        callback(navs)
+    });
+    Topic.groupByTag(function(err, results) {
+        var tags = [];
+        results.forEach(function(result){
+            var record = {};
+            record.name = result._id;
+            record.count = result.count;
+            record.topics = result.topics;
+            tags.push(record);
+        })
+        ep.emit("tags", tags);
+    });
+
+   Topic.groupByCategory(function(err, results) {
+        var categories = [];
+        results.forEach(function(result){
+            var record = {};
+            record.name = result._id;
+            record.count = result.count;
+            record.topics = result.topics;
+            categories.push(record);
+        })
+        ep.emit("categories", categories);
     });
 };
