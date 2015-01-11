@@ -296,3 +296,36 @@ exports.setNavs = function(app){
         });
     }
 };
+
+exports.getNavs =  function(req, res) {
+     var navs = {};
+     console.log("in get navs")
+     var ep = eventproxy.create("categories", "tags", function (categories, tags) {
+         navs.categories = categories;
+         navs.tags = tags;
+         res.send(navs);
+     });
+     Topic.groupByTag(function(err, results) {
+         var tags = [];
+         results.forEach(function(result){
+             var record = {};
+             record.name = result._id;
+             record.count = result.count;
+             record.topics = result.topics;
+             tags.push(record);
+         })
+         ep.emit("tags", tags);
+     });
+
+    Topic.groupByCategory(function(err, results) {
+         var categories = [];
+         results.forEach(function(result){
+             var record = {};
+             record.name = result._id;
+             record.count = result.count;
+             record.topics = result.topics;
+             categories.push(record);
+         })
+         ep.emit("categories", categories);
+     });
+}

@@ -1,5 +1,63 @@
-<%- include header.html %>
-<% if (typeof(topics) !== 'undefined' && topics.length > 0) { %>
-        <%- include /topic/list.html %>
-<% } %>
-<%- include footer.html %>
+<!DOCTYPE html>
+<html lang="en" ng-app="sidenavDemo1">
+<head>
+    <meta charset="UTF-8">
+    <title>Node App</title>
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+</head>
+<body>
+    <div ng-controller="AppCtrl" layout="column" layout-fill>
+      <section layout="row" flex>
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-md')">
+          <md-toolbar class="md-theme-indigo">
+            <h1 class="md-toolbar-tools">Sidenav Left</h1>
+          </md-toolbar>
+          <md-content class="md-padding" ng-controller="LeftCtrl">
+            <md-button ng-click="close()" class="md-primary" hide-gt-md>
+              Close Sidenav Left
+            </md-button>
+            <p hide-md show-gt-md>
+              This sidenav is locked open on your device. To go back to the default behavior,
+              narrow your display.
+            </p>
+          </md-content>
+        </md-sidenav>
+        <md-content flex class="md-padding">
+          <div layout="column" layout-fill layout-align="center center">
+            <p>
+            The left sidenav will 'lock open' on a medium (>=960px wide) device.
+            </p>
+            <div>
+              <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
+                Toggle left
+              </md-button>
+             <div ng-view></div>
+            </div>
+          </div>
+        </md-content>
+      </section>
+    </div>
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+
+    <script src="bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_components/hammerjs/hammer.min.js"></script>
+
+    <script src="bower_components/angular-material/angular-material.min.js"></script>
+    <script type="text/javascript">
+        angular.module('sidenavDemo1', ['ngMaterial'])
+        .controller('AppCtrl', function($scope, $timeout, $mdSidenav, $log) {
+          $scope.toggleLeft = function() {
+            $mdSidenav('left').toggle()
+          };
+        })
+        .controller('LeftCtrl', function($scope, $timeout, $mdSidenav, $log) {
+          $scope.close = function() {
+            $mdSidenav('left').close()
+          };
+        })
+    </script>
+</body>
+</html>
