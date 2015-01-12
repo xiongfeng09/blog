@@ -299,7 +299,6 @@ exports.setNavs = function(app){
 
 exports.getNavs =  function(req, res) {
      var navs = {};
-     console.log("in get navs")
      var ep = eventproxy.create("categories", "tags", function (categories, tags) {
          navs.categories = categories;
          navs.tags = tags;
