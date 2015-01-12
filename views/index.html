@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
 </head>
 <body>
-    <div ng-controller="AppCtrl" layout="column" layout-fill>
+    <div ng-controller="AppCtrl" layout="column" layout-fill style="height:100%;">
       <section layout="row" flex>
         <md-sidenav style="overflow: hidden; display: flex;" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-md')">
           <md-toolbar class="md-theme-indigo">
@@ -17,7 +17,7 @@
               This sidenav is locked open on your device. To go back to the default behavior,
               narrow your display.
             </p>
-            <!-- {{navs}} -->
+            {{navs}}
           </md-content>
         </md-sidenav>
         <md-content flex class="md-padding">
