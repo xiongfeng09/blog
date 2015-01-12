@@ -8,18 +8,16 @@
 <body>
     <div ng-controller="AppCtrl" layout="column" layout-fill>
       <section layout="row" flex>
-        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-md')">
+        <md-sidenav style="overflow: hidden; display: flex;" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-md')">
           <md-toolbar class="md-theme-indigo">
             <h1 class="md-toolbar-tools">Sidenav Left</h1>
           </md-toolbar>
-          <md-content class="md-padding" ng-controller="LeftCtrl">
-            <md-button ng-click="close()" class="md-primary" hide-gt-md>
-              Close Sidenav Left
-            </md-button>
+          <md-content class="md-padding"  flex ng-controller="LeftCtrl" style="overflow:auto">
             <p hide-md show-gt-md>
               This sidenav is locked open on your device. To go back to the default behavior,
               narrow your display.
             </p>
+            <!-- {{navs}} -->
           </md-content>
         </md-sidenav>
         <md-content flex class="md-padding">
@@ -47,16 +45,33 @@
 
     <script src="bower_components/angular-material/angular-material.min.js"></script>
     <script type="text/javascript">
-        angular.module('sidenavDemo1', ['ngMaterial'])
-        .controller('AppCtrl', function($scope, $timeout, $mdSidenav, $log) {
+        'use strict';
+        var app = angular.module('sidenavDemo1', ['ngMaterial'])
+
+        // Declare app level module which depends on filters, and services
+        app.service('blogService', function ($http, $location) {
+            this.getNavs = function () {
+               return $http.get('/api/getNavs');
+            }
+        }); 
+
+
+      app.controller('AppCtrl', function($scope) {
           $scope.toggleLeft = function() {
             $mdSidenav('left').toggle()
           };
         })
-        .controller('LeftCtrl', function($scope, $timeout, $mdSidenav, $log) {
+        .controller('LeftCtrl', function($scope, blogService) {
           $scope.close = function() {
             $mdSidenav('left').close()
           };
+          $scope.navs = blogService.getNavs()
+                .success(function (navs, status, headers, config) {
+                    $scope.navs = navs;
+                })
+                .error(function(data, status, headers, config) {
+                    toaster.pop('error', current);
+                });
         })
     </script>
 </body>
