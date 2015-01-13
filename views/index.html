@@ -1,39 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="sidenavDemo1">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <title>Node App</title>
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+    <style type="text/css">
+        .nav {
+            margin-bottom: 0;
+            padding-left: 0;
+            list-style: none;
+        }
+        .nav .active {
+            background-color: #fafaf6;
+        }
+        .nav li a {
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+            color: #2a6496;
+            text-decoration: none;
+        }
+        .nav .active {
+            background-color: #fff;
+            border: 1px solid #f6f6f6;
+        }
+    </style>
 </head>
 <body>
-    <div ng-controller="AppCtrl" layout="column" layout-fill style="height:100%;">
-      <section layout="row" flex>
-        <md-sidenav style="overflow: hidden; display: flex;" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-md')">
-          <md-toolbar class="md-theme-indigo">
-            <h1 class="md-toolbar-tools">Sidenav Left</h1>
-          </md-toolbar>
-          <md-content class="md-padding"  flex ng-controller="LeftCtrl" style="overflow:auto">
-            <p hide-md show-gt-md>
-              This sidenav is locked open on your device. To go back to the default behavior,
-              narrow your display.
-            </p>
-            {{navs}}
-          </md-content>
+    <div layout="row" ng-controller="MyController" style="height:100%">
+        <md-sidenav md-component-id="left" layout="row" class="md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open"
+          md-is-locked-open="$media('gt-sm')"
+          flex="33"
+        >
+            <md-content flex="25" layout="column" style="background-color: #1f2c39">
+               <ul class="nav">
+                   <li class="active"><a href="javascript:;">index</a></li>
+                   <li><a href="javascript:;">index</a></li>
+                   <li><a href="javascript:;">index</a></li>
+               </ul>
+            </md-content>
+            <md-content layout-fill layout="column" style="text-align:left">
+                <md-button>category</md-button>
+                <md-button>category</md-button>
+                <md-button>category</md-button>
+            </md-content>
         </md-sidenav>
-        <md-content flex class="md-padding">
-          <div layout="column" layout-fill layout-align="center center">
-            <p>
-            The left sidenav will 'lock open' on a medium (>=960px wide) device.
-            </p>
-            <div>
-              <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
-                Toggle left
-              </md-button>
-             <div ng-view></div>
-            </div>
-          </div>
+        <md-content layout-fill>
+          Center Content
+          <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
+            Open Left Menu
+          </md-button>
         </md-content>
-      </section>
     </div>
 
     <script src="bower_components/angular/angular.min.js"></script>
@@ -45,34 +62,16 @@
 
     <script src="bower_components/angular-material/angular-material.min.js"></script>
     <script type="text/javascript">
+
+    </script>
+    <script type="text/javascript">
         'use strict';
-        var app = angular.module('sidenavDemo1', ['ngMaterial'])
-
-        // Declare app level module which depends on filters, and services
-        app.service('blogService', function ($http, $location) {
-            this.getNavs = function () {
-               return $http.get('/api/getNavs');
-            }
-        }); 
-
-
-      app.controller('AppCtrl', function($scope) {
-          $scope.toggleLeft = function() {
-            $mdSidenav('left').toggle()
-          };
-        })
-        .controller('LeftCtrl', function($scope, blogService) {
-          $scope.close = function() {
-            $mdSidenav('left').close()
-          };
-          $scope.navs = blogService.getNavs()
-                .success(function (navs, status, headers, config) {
-                    $scope.navs = navs;
-                })
-                .error(function(data, status, headers, config) {
-                    toaster.pop('error', current);
-                });
-        })
+       var app = angular.module('myApp', ['ngMaterial']);
+       app.controller('MyController', function($scope, $mdSidenav) {
+         $scope.toggleLeft = function() {
+           $mdSidenav('left').toggle();
+         };
+       });
     </script>
 </body>
 </html>
