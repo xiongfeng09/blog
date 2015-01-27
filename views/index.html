@@ -1,104 +1,104 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="sidenavDemo1">
 	<head>
-			<meta charset="UTF-8">
-			<title>Node App</title>
-			<link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
-			<style type="text/css">
-				*{margin: 0px;padding: 0px;text-decoration: none;
-					box-sizing:border-box;webkit-box-sizing: border-box;-moz-box-sizing: border-box;}
-				html{height: 100%;}
-				body{height: 100%;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-					font-size: 14px;
-					line-height: 1.42857143;
-					color: #333;
-					background-color: #fff;}
-				h2{margin-top: 20px;font-size: 30px;font-weight: 500;line-height: 1.1;
-					margin-bottom: 10px;}
-				.container{height: 100%;width: 100%}
-				.container .nav{width: 30%;float: left;height: 100%;
-					transition: width 2s;
-					-moz-transition: width 2s;  /* Firefox 4 */
-					-webkit-transition: width 2s; /* Safari 和 Chrome */
-					-o-transition: width 2s;  /* Opera */}
+		<meta charset="UTF-8">
+		<title>Node App</title>
+		<link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+		<style type="text/css">
+			*{margin: 0px;padding: 0px;text-decoration: none;
+				box-sizing:border-box;webkit-box-sizing: border-box;-moz-box-sizing: border-box;}
+			html{height: 100%;}
+			body{height: 100%;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+				font-size: 14px;
+				line-height: 1.42857143;
+				color: #333;
+				background-color: #fff;}
+			h2{margin-top: 20px;font-size: 30px;font-weight: 500;line-height: 1.1;
+				margin-bottom: 10px;}
+			.container{height: 100%;width: 100%}
+			.container .nav{width: 30%;float: left;height: 100%;
+				transition: width 2s;
+				-moz-transition: width 2s;  /* Firefox 4 */
+				-webkit-transition: width 2s; /* Safari 和 Chrome */
+				-o-transition: width 2s;  /* Opera */}
 
-				.visible{display: none !important;}
-				.hide{}
+			.visible{display: none !important;}
+			.hide{}
 
-				.content-lg{width: 100%;}
+			.content-lg{width: 100%;}
+			.content-sm{width: 70%;}
+
+			.nav .aside1{width: 25%;min-width: 20%;
+				background-color: #1f2c39;
+				float: left;
+				height: 100%;
+				text-align: center;}
+			.nav .aside1 .logo{height: 15%;background-color:#428bca;width: 100%;}
+			.nav .aside1 .nav-stack{list-style: none;}
+			.nav-stack>li{margin-bottom: 1px;}
+			.nav-stack>li>a{color: #428bca;padding: 10px 15px;display: block;}
+			.nav-stack .active,.nav-stack>li:hover{color: #2a6496;background-color: #fafaf6;}
+
+			.nav .aside2{background-color: #fafaf6;height: 100%;width: 75%;float: left;
+				border-right: 2px solid #18bc9c;overflow-y:auto;}
+			.aside2 .tab-content .active{display: block!important;}
+			.aside2 .tab-content .tab-pane{display: none;}
+			.aside2 .tab-content .list-group{margin-bottom: 20px;}
+			.tab-content .center{text-align: center;}
+			a.list-group-item {color: #555;padding: 10px 15px;background-color: #fff;
+				border: 1px solid #ddd;
+				margin-bottom: -1px;
+				width: auto;
+				display: block;}
+			.tab-pane .panel{border-radius: 4px;border:1px solid #bce8f1;margin-bottom: 3px;box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+				background-color: #fff;}
+			.panel>.panel-heading{color: #31708f;background-color: #d9edf7;border-color: #bce8f1;padding: 10px 15px;font-size: 16px;}
+			.panel-heading>a{display: block;width: 100%;color: inherit;}
+			.panel-heading .badge{color: #d9edf7;background-color: #31708f;float: right !important;min-width: 10px;
+				padding: 3px 7px;font-size: 12px;font-weight: bold;border-radius: 10px;}
+			.panel .panel-info{display: none;
+				transition: display 10s;
+				-moz-transition: display 10s; /* Firefox 4 */
+				-webkit-transition: display 10s;  /* Safari 和 Chrome */
+				-o-transition: display 10s; /* Opera */}
+			
+
+
+			.content{float: left;background-color: green;
+				height: 100%;
+				}
+			.clearfix:after{
+				content: "";
+				clear: both;
+				display: block;
+			}
+			@media(min-width: 900px){
+				.visible{display: block !important;}
+				.hide{display: none;}
 				.content-sm{width: 70%;}
-
-				.nav .aside1{width: 25%;min-width: 20%;
-					background-color: #1f2c39;
-					float: left;
-					height: 100%;
-					text-align: center;}
-				.nav .aside1 .logo{height: 15%;background-color:#428bca;width: 100%;}
-				.nav .aside1 .nav-stack{list-style: none;}
-				.nav-stack>li{margin-bottom: 1px;}
-				.nav-stack>li>a{color: #428bca;padding: 10px 15px;display: block;}
-				.nav-stack .active,.nav-stack>li:hover{color: #2a6496;background-color: #fafaf6;}
-
-				.nav .aside2{background-color: #fafaf6;height: 100%;width: 75%;float: left;
-					border-right: 2px solid #18bc9c;overflow-y:auto;}
-				.aside2 .tab-content .active{display: block!important;}
-				.aside2 .tab-content .tab-pane{display: none;}
-				.aside2 .tab-content .list-group{margin-bottom: 20px;}
-				.tab-content .center{text-align: center;}
-				a.list-group-item {color: #555;padding: 10px 15px;background-color: #fff;
-					border: 1px solid #ddd;
-					margin-bottom: -1px;
-					width: auto;
-					display: block;}
-				.tab-pane .panel{border-radius: 4px;border:1px solid #bce8f1;margin-bottom: 3px;box-shadow: 0 1px 1px rgba(0,0,0,0.05);
-					background-color: #fff;}
-				.panel>.panel-heading{color: #31708f;background-color: #d9edf7;border-color: #bce8f1;padding: 10px 15px;font-size: 16px;}
-				.panel-heading>a{display: block;width: 100%;color: inherit;}
-				.panel-heading .badge{color: #d9edf7;background-color: #31708f;float: right !important;min-width: 10px;
-					padding: 3px 7px;font-size: 12px;font-weight: bold;border-radius: 10px;}
-				.panel .panel-info{display: none;
-					transition: display 10s;
-					-moz-transition: display 10s; /* Firefox 4 */
-					-webkit-transition: display 10s;  /* Safari 和 Chrome */
-					-o-transition: display 10s; /* Opera */}
-				
-
-
-				.content{float: left;background-color: green;
-					height: 100%;
-					}
-				.clearfix:after{
-					content: "";
-					clear: both;
-					display: block;
-				}
-				@media(min-width: 900px){
-					.visible{display: block !important;}
-					.hide{display: none;}
-					.content-sm{width: 70%;}
-					.content-lg{width: 100%;}
-				}
-				@media(max-width: 900px){
-					.content-sm{width: 100%;}
-					.hide{width: 100% !important;}
-					.content-lg{width: 0px;}
-				}
-				@font-face{
-					font-family: 'Glyphicons Halflings';
-					src: url('fonts/glyphicons-halflings-regular.eot');
-					src: url('fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('fonts/glyphicons-halflings-regular.woff') format('woff'), url('fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('public/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');}
-				#align-justify{font-family: 'Glyphicons Halflings';
-					font-size: 35px;
-					color: blue;
-					position: fixed;
-					right: 10px;
-					top: 10px;
-					line-height: 1;
-					background: white;
-					padding: 5px;
-					cursor: pointer;}
-				#align-justify:before{content: "\e055";}
-			</style>
+				.content-lg{width: 100%;}
+			}
+			@media(max-width: 900px){
+				.content-sm{width: 100%;}
+				.hide{width: 100% !important;}
+				.content-lg{width: 0px;}
+			}
+			@font-face{
+				font-family: 'Glyphicons Halflings';
+				src: url('fonts/glyphicons-halflings-regular.eot');
+				src: url('fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('fonts/glyphicons-halflings-regular.woff') format('woff'), url('fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('public/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');}
+			#align-justify{font-family: 'Glyphicons Halflings';
+				font-size: 35px;
+				color: blue;
+				position: fixed;
+				right: 10px;
+				top: 10px;
+				line-height: 1;
+				background: white;
+				padding: 5px;
+				cursor: pointer;}
+			#align-justify:before{content: "\e055";}
+		</style>
 	</head>
 	<body>
 		<div class="container clearfix">
@@ -108,6 +108,15 @@
 					<br/>
 					<div>
 						<ul class="nav-stack">
+							<%
+							config.categories.forEach(function (category) {
+								var value = category[0];
+								var text = category[1];
+							%>
+							<li class="<%=(typeof(category) !== 'undefined' && category == value) ? 'active' : '' %>">
+								<a data='tab' href="#<%=value%>" ><%=text%></a>
+							</li>
+							<% }); %>
 							<li class="active"><a href="#技术">技术</a></li>
 							<li class=""><a href="#工具" >工具</a></li>
 							<li class=""><a href="#资源">资源</a></li>
@@ -121,9 +130,26 @@
 				</div>
 				<div class="aside2">
 					<div class="tab-content">
+						<%
+						navs.categories.forEach(function (category) {
+							var name = category.name;
+						%>
+							<div class="tab-pane" id="<%=name%>">
+								<div class="list-group">
+									<h2 class="center"><%=name%></h2>
+									<%
+									category.topics.forEach(function (topic) {
+									%>
+									<a href="#/topic/<%=topic._id%>" class="list-group-item pjaxlink"><%=topic.title%></a>
+									<% }); %>
+								</div>
+							</div>
+						<% }); %>
+
 						<div class="tab-pane active" id="技术">
 							<div class="list-group">
 								<h2 class="center">技术</h2>
+								<a href="/2015/01/08/conflict-between-camel-and-snake-in-laravel.html" class="list-group-item pjaxlink">Laravel 关联模型由于名称一致性导致的问题</a>
 								<a href="/2015/01/08/conflict-between-camel-and-snake-in-laravel.html" class="list-group-item pjaxlink">Laravel 关联模型由于名称一致性导致的问题</a>
 							</div>
 						</div>
@@ -183,7 +209,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="content content-sm"></div>
+			<div class="content content-sm">
+				<div ng-view></div>
+			</div>
 		</div>
 		<div id="align-justify"></div>
 	</body>
@@ -210,12 +238,12 @@
 					$(".content").addClass("content-sm").removeClass("content-lg");
 				};
 			});
-			$(".nav-stack>li").click(function(){
+			$(document).on("click", ".nav-stack>li", function(){
 				$(this).addClass("active").siblings().removeClass("active");
 				var href=$(this).children("a").attr("href");
 				$(href).addClass("active").siblings().removeClass("active");
 			});
-			$(".panel-heading>a").click(function(){
+			$(document).on("click", ".panel-heading>a", function(){
 				var id=$(this).attr("href");
 				if ($(id).is(":visible")==true) {
 					$(id).hide()
@@ -227,33 +255,46 @@
 		})
 	</script>
 	<script type="text/javascript">
-			'use strict';
-			var app = angular.module('sidenavDemo1', ['ngMaterial'])
+		'use strict';
+		var app = angular.module('sidenavDemo1', ['ngMaterial', 'ngRoute'])
 
-			// Declare app level module which depends on filters, and services
-			app.service('blogService', function ($http, $location) {
-					this.getNavs = function () {
-						 return $http.get('/api/getNavs');
-					}
-			}); 
+		// Declare app level module which depends on filters, and services
+		app.service('blogService', function ($http, $location) {
+			this.getNavs = function () {
+				 return $http.get('/api/getNavs');
+			}
+			this.getTopic = function (id) {
+				 return $http.get('/api/topic/' + id);
+			}
+		}); 
 
+		app.config(['$routeProvider', function($routeProvider) {
+		    $routeProvider.when('/topic/:topicId', 
+		            {
+		            controller: 'postDetailsCtrl',
+		            templateUrl: 'partials/postDetails.html'
+		            }) 
+		}]);
 
-		app.controller('AppCtrl', function($scope, $mdSidenav) {
-				$scope.toggleLeft = function() {
-					$mdSidenav('left').toggle()
-				};
-			})
-			.controller('LeftCtrl', function($scope, blogService) {
-				$scope.close = function() {
-					$mdSidenav('left').close()
-				};
-				$scope.navs = blogService.getNavs()
-					.success(function (navs, status, headers, config) {
-							$scope.navs = navs;
-					})
-					.error(function(data, status, headers, config) {
-							toaster.pop('error', current);
-					});
-			})
+		app.controller('LeftCtrl', function($scope, blogService) {
+			$scope.close = function() {
+				$mdSidenav('left').close()
+			};
+			$scope.navs = blogService.getNavs()
+				.success(function (navs, status, headers, config) {
+					$scope.categories = navs.categories;
+					$scope.tags = navs.tags;
+				})
+		})
+
+		app.controller('postDetailsCtrl', function($scope, $routeParams, blogService, $location) {
+		    //Call to getById() method in blogService
+
+		    blogService.getTopic($routeParams.topicId)
+		        .success(function (current, status, headers, config) {
+		        	console.log(current)
+		            $scope.current = current;
+		        })
+		});
 	</script>
 </html>

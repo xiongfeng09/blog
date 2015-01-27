@@ -185,12 +185,7 @@ exports.info = function (req, res) {
         topic.friendly_create_at = tools.formatDate(topic.create_at, true);
         topic.friendly_update_at = tools.formatDate(topic.update_at, true);
 
-        res.render('topic/info',{
-            topic: topic,
-            user: req.session.user,
-            success: req.flash('success').toString(),
-            error: req.flash('error').toString()
-        });
+        res.send (topic);
     });
 };
 

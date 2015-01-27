@@ -27,7 +27,7 @@ module.exports = function(app) {
     // app.post('/topic/create', checkLogin);
     // app.post('/topic/create', topic.create);
 
-    // app.get('/topic/:tid', topic.info);  // 显示某个话题
+    app.get('/api/topic/:tid', topic.info);  // 显示某个话题
 
     // app.get('/topic/:tid/edit', checkLogin);
     // app.get('/topic/:tid/edit', topic.showEdit); 
