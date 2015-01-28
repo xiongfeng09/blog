@@ -2,6 +2,7 @@
 <html lang="en" ng-app="sidenavDemo1">
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
 		<title>Node App</title>
 		<link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
 		<style type="text/css">
@@ -72,17 +73,20 @@
 				clear: both;
 				display: block;
 			}
-			@media(min-width: 900px){
+
+			.content-sm{width: 100%;}
+			.hide{width: 100% !important;}
+			.content-lg{width: 0px;}
+
+			@media screen and (min-width: 900px){
 				.visible{display: block !important;}
 				.hide{display: none;}
 				.content-sm{width: 70%;}
 				.content-lg{width: 100%;}
 			}
-			@media(max-width: 900px){
-				.content-sm{width: 100%;}
-				.hide{width: 100% !important;}
-				.content-lg{width: 0px;}
-			}
+		
+
+			
 			@font-face{
 				font-family: 'Glyphicons Halflings';
 				src: url('fonts/glyphicons-halflings-regular.eot');
@@ -238,7 +242,7 @@
 					$(".content").addClass("content-sm").removeClass("content-lg");
 				};
 			});
-			$(document).on("click", ".nav-stack>li", function(){
+			$(document).on("click", ".nav-stack>li", function() {
 				$(this).addClass("active").siblings().removeClass("active");
 				var href=$(this).children("a").attr("href");
 				$(href).addClass("active").siblings().removeClass("active");
@@ -282,6 +286,7 @@
 			};
 			$scope.navs = blogService.getNavs()
 				.success(function (navs, status, headers, config) {
+					$scope.navs = navs;
 					$scope.categories = navs.categories;
 					$scope.tags = navs.tags;
 				})
