@@ -53,7 +53,7 @@ exports.create = function (req, res) {
         req.flash('success', '记录成功!');
         res.redirect('/topic/' + topic._id);
     });
-  }
+  };
 
 //showEdit
 exports.showEdit = function (req, res) {
@@ -161,8 +161,31 @@ exports.delete = function (req, res) {
                 return res.redirect('/');
             }
             req.flash('success', '删除成功!');
-            res.redirect('/');
+            res.redirect('/m/');
         });
+    });
+};
+
+//info
+exports.infoJson = function (req, res) {
+    var topic_id = req.params.tid;
+    if (topic_id.length !== 24) {
+        req.flash('error',  '此话题不存在或已被删除。')
+        return res.redirect('/');
+    }
+    Topic.getTopicById(topic_id, function(error, topic){
+        if (error) {
+            req.flash('error',  '此话题不存在或已被删除。')
+            return res.redirect('/');
+        }
+        topic.visit_count += 1;
+        topic.save();
+
+        // format date
+        topic.friendly_create_at = tools.formatDate(topic.create_at, true);
+        topic.friendly_update_at = tools.formatDate(topic.update_at, true);
+
+        res.send (topic);
     });
 };
 
@@ -185,8 +208,13 @@ exports.info = function (req, res) {
         topic.friendly_create_at = tools.formatDate(topic.create_at, true);
         topic.friendly_update_at = tools.formatDate(topic.update_at, true);
 
-        res.send (topic);
-    });
+	res.render('topic/info',{
+		topic: topic,
+		user: req.session.user,
+		success: req.flash('success').toString(),
+		error: req.flash('error').toString()
+	});
+     });
 };
 
 // 主页的缓存工作。主页是需要主动缓存的\

@@ -3,7 +3,7 @@ var user = require('./user');
 
 module.exports = function(app) {
 	app.get("/api/getNavs", topic.getNavs);
-	app.get('/api/topic/:tid', topic.info);
+	app.get('/api/topic/:tid', topic.infoJson);
 
 
 	app.get('/m/', topic.list);
