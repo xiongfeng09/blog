@@ -1,4 +1,3 @@
-<%- include ../header.html %>
 <div class='content'>
     <form id='create_topic_form' action='<%= (typeof(action) !== 'undefined' && action === 'edit') ? ('/topic/' + id + '/edit') : '/topic/create' %>' method='post'>
         <div class="input-group">
@@ -27,5 +26,4 @@
         <textarea name="content" rows="20"><%= typeof(content)!== 'undefined' && content || '' %></textarea>
         <input type="submit" value="发表" />
     </form>
-    <%- include ../footer.html %>
 </div>

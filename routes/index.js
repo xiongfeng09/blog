@@ -2,55 +2,57 @@ var topic = require('./topic');
 var user = require('./user');
 
 module.exports = function(app) {
-    app.get("/", function(req, res) {
-        res.render("index.html");
-    });
-    app.get("/api/getNavs", topic.getNavs);
-    // app.get('/register', checkNotLogin);
-    // app.get('/register', user.showRegister);  // 跳转到注册页面
+	app.get("/api/getNavs", topic.getNavs);
+	app.get('/api/topic/:tid', topic.info);
 
-    // app.post('/register', checkNotLogin);
-    // app.post('/register', user.register);  //  注册页面
 
-    // app.get('/login', checkNotLogin);
-    // app.get('/login', user.showLogin);
+	app.get('/m/', topic.list);
+	app.get('/register', checkNotLogin);
+	app.get('/register', user.showRegister);  // 跳转到注册页面
 
-    // app.post('/login', checkNotLogin);
-    // app.post('/login', user.login);  //  注册页面
+	app.post('/register', checkNotLogin);
+	app.post('/register', user.register);  //  注册页面
 
-    // app.get('/logout', checkLogin);
-    // app.get('/logout', user.logout);
+	app.get('/login', checkNotLogin);
+	app.get('/login', user.showLogin);
 
-    // app.get('/topic/create', checkLogin);
-    // app.get('/topic/create', topic.showCreate);
+	app.post('/login', checkNotLogin);
+	app.post('/login', user.login);  //  注册页面
 
-    // app.post('/topic/create', checkLogin);
-    // app.post('/topic/create', topic.create);
+	app.get('/logout', checkLogin);
+	app.get('/logout', user.logout);
 
-    app.get('/api/topic/:tid', topic.info);  // 显示某个话题
+	app.get('/topic/create', checkLogin);
+	app.get('/topic/create', topic.showCreate);
 
-    // app.get('/topic/:tid/edit', checkLogin);
-    // app.get('/topic/:tid/edit', topic.showEdit); 
+	app.post('/topic/create', checkLogin);
+	app.post('/topic/create', topic.create);
 
-    // app.post('/topic/:tid/edit', checkLogin);
-    // app.post('/topic/:tid/edit', topic.edit);
 
-    // app.get('/topic/:tid/delete', checkLogin);
-    // app.get('/topic/:tid/delete', topic.delete);
+	app.get('/topic/:tid', topic.info);  // 显示某个话题
 
-    function checkLogin(req, res, next) {
-        if (!req.session.user) {
-          req.flash('error', '未登录!');
-          res.redirect('/login');
-        }
-        next();
-    };
+	app.get('/topic/:tid/edit', checkLogin);
+	app.get('/topic/:tid/edit', topic.showEdit); 
 
-    function checkNotLogin(req, res, next) {
-        if (req.session.user) {
-          req.flash('error', '已登录!');
-          res.redirect('/');//返回之前的页面
-        }
-        next();
-    };
+	app.post('/topic/:tid/edit', checkLogin);
+	app.post('/topic/:tid/edit', topic.edit);
+
+	app.get('/topic/:tid/delete', checkLogin);
+	app.get('/topic/:tid/delete', topic.delete);
+
+	function checkLogin(req, res, next) {
+		if (!req.session.user) {
+			req.flash('error', '未登录!');
+			res.redirect('/login');
+		}
+		next();
+	};
+
+	function checkNotLogin(req, res, next) {
+		if (req.session.user) {
+			req.flash('error', '已登录!');
+			res.redirect('/');//返回之前的页面
+		}
+		next();
+	};
 };

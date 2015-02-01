@@ -56,7 +56,7 @@ exports.register = function (req, res) {
             }
             req.session.user = user;//用户信息存入 session
             req.flash('success', '注册成功!');
-            res.redirect('/');//注册成功后返回主页
+            res.redirect('/m/');//注册成功后返回主页
         });
     });
 };
@@ -89,7 +89,7 @@ exports.login = function(req, res){
       //用户名密码都匹配后，将用户信息存入 session
       req.session.user = user;
       req.flash('success', '登陆成功!');
-      res.redirect('/');//登陆成功后跳转到主页
+      res.redirect('/m/');//登陆成功后跳转到主页
     });
 };
 
@@ -97,5 +97,5 @@ exports.login = function(req, res){
 exports.logout = function (req, res) {
     req.session.user = null;
     req.flash('success', '退出成功!');
-    res.redirect('/');//登出成功后跳转到主页
+    res.redirect('/m/');//登出成功后跳转到主页
 };

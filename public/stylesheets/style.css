@@ -30,14 +30,6 @@ body .container-fluid {
     padding: 0;
 }
 
-nav {
-    height: 100%;
-    padding-left: 0px;
-    padding-right: 0px;
-    text-align: center;
-    background-color: #1f2c39;
-    width: 9%;
-}
 nav ul {
     margin-bottom: 0;
     padding-left: 0;
@@ -46,38 +38,6 @@ nav ul {
 nav ul .active {
     background-color: #fafaf6;
 }
-nav ul li a {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-    color: #2a6496;
-    text-decoration: none;
-}
-
-.middle {
-    height: 100%;
-    width: 21%;
-    color: #333;
-    background-color: #fafaf6;
-    overflow: auto;
-}
-.middle .list-group-item.active {
-
-}
-
-.content  {
-    margin-left: 30%;
-    height: 100%;
-}
-
-.topic .title {
-    background-color: #1f2c39;
-    padding: 30px 30px;
-    text-align: center;
-    color: #FFF;
-    font-size: 30px;
-}
-.topic .time {
-    font-size: 15px;
-    text-align: right;
+nav .navbar {
+    margin-bottom: 0px;
 }

@@ -1,74 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <title>Blog</title>
-    <meta name="author" content="<%=config.author.name%>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/style.css">
-    <link rel="stylesheet" href="/css/bootstrap.css">
-      <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-  <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-  <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<meta charset="UTF-8" />
+	<title>Blog</title>
+	<meta name="author" content="<%=config.author.name%>">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/stylesheets/style.css">
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class='container-fluid clearfix'>
-        <nav class='left'>
-            <ul>
-                <li  class="<%=(typeof(category) === 'undefined' && typeof(tags_results) === 'undefined') ? 'active' : '' %>">
-                    <a title="主页" href="/">主页</a>
-                </li>
-                <%
-                  config.categories.forEach(function (pair) {
-                        var value = pair[0];
-                        var text = pair[1];
-                %>
-                    <li class="<%=(typeof(category) !== 'undefined' && category == value) ? 'active' : '' %>">
-                        <a data='tab' href="#<%=value%>" 
-                        ><%=text%></a>
-                    </li>
-                <% }); %>
-                <li class="<%=(typeof(tags_results) !== 'undefined' ) ? 'active' : '' %>"><a href="#tags" data='tab'>标签</a></li>
-                <% if (typeof(user) !== 'undefined' && user)  { %>
-                  <li><a title="发表" href="/topic/create">发表</a></li>
-                  <li><a title="退出" href="/logout">退出</a></li>
-                <% } else { %>
-                  <li><a title="登录" href="/login">登录</a></li>
-                  <li><a title="注册" href="/register">注册</a></li>
-                <% } %>
-            </ul>
-        </nav>
-        <div class='middle left tab-content'>
-            <% if (typeof(navs) !== 'undefined' && navs) { 
-                navs.categories.forEach(function(data){ 
-                    var name = data.name;
-                    var topics = data.topics;
-                %>
-                <span id='<%=name%>' class='tab-pane fade' >
-                    <%topics.forEach(function(t){%>
-                    <a class='list-group-item'  href="<%= '/topic/' + t._id %>"><%=t.title%></a>
-                    <%})%>
-                </span>
-                <% }) ;%>
-
-                <span id='tags' class='tab-pane fade' >
-                    <% navs.tags.forEach(function(data){ 
-                        var name = data.name;
-                        var count = data.count;
-                        var topics = data.topics;
-                    %>
-                        <a  href='' class="list-group-item" >
-                            <span class="badge"><%=count%></span>
-                            <%=name%>
-                        </a>
-                    <%});%>
-                </span>
-           <% } %>
-        </div>
-        <% if (typeof(success) !== 'undefined' && success) { %>
-           <div class="alert alert-success" role="alert"><%= success %></div>
-        <% } %>
-        <% if (typeof(error) !== 'undefined' && error) { %>
-          <div class="alert alert-warning" role="alert"><%= error %> </div>
-        <% } %>
+	<div class='container-fluid clearfix'>
+<!-- 		<nav class='left'>
+			<ul>
+				<li  class="<%=(typeof(category) === 'undefined' && typeof(tags_results) === 'undefined') ? 'active' : '' %>">
+					<a title="主页" href="/m/">主页</a>
+				</li>
+				<% if (typeof(user) !== 'undefined' && user)  { %>
+					<li><a title="发表" href="/topic/create">发表</a></li>
+					<li><a title="退出" href="/logout">退出</a></li>
+				<% } else { %>
+					<li><a title="登录" href="/login">登录</a></li>
+					<li><a title="注册" href="/register">注册</a></li>
+				<% } %>
+			</ul>
+		</nav> -->
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+				<ul class="nav navbar-nav first-ul">
+					<li><a href='/m/'>首页</a></li>
+					<% if (typeof(user) !== 'undefined' && user)  { %>
+						<li><a title="发表" href="/topic/create">发表</a></li>
+						<li><a title="退出" href="/logout">退出</a></li>
+					<% } else { %>
+						<li><a title="登录" href="/login">登录</a></li>
+					<% } %>
+					<li><a href='#'>常用快捷键</a></li>
+				</ul>
+			</div>
+		</nav>
+		<% if (typeof(success) !== 'undefined' && success) { %>
+			 <div class="alert alert-success" role="alert"><%= success %></div>
+		<% } %>
+		<% if (typeof(error) !== 'undefined' && error) { %>
+			<div class="alert alert-warning" role="alert"><%= error %> </div>
+		<% } %>
