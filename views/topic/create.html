@@ -1,29 +1,62 @@
-<div class='content'>
-    <form id='create_topic_form' action='<%= (typeof(action) !== 'undefined' && action === 'edit') ? ('/topic/' + id + '/edit') : '/topic/create' %>' method='post'>
-        <div class="input-group">
-        <span class="input-group-addon">标题：</span>
-        <input type="text"  name='title' value='<%= typeof(title) !== 'undefined' && title || '' %>'  class="form-control" placeholder="Username">
-        </div>
+<link rel="stylesheet" href="/css/demo.css" />
+<link rel="stylesheet" href="/css/prettify.css" />
 
-        分类：<br />
-        <select name="category" id="tab-value">
-        <option value="">请选择</option>
-        <%
-            var categoryValue = '';
-            if (typeof(category) !== 'undefined') {
-                categoryValue = category;
-            }
-            config.categories.forEach(function (pair) {
-                var value = pair[0];
-                var text = pair[1];
-            %>
-            <option value="<%=value%>" <%= categoryValue === value ? 'selected': '' %>><%=text%></option>
-          <%});%>
-        </select><br />
-        标签：<br />
-        <input type="text" name="tag" value='<%=(typeof(tag) === 'undefined') ? '' : tag %>'/><br />
-        正文：<br /> 
-        <textarea name="content" rows="20"><%= typeof(content)!== 'undefined' && content || '' %></textarea>
-        <input type="submit" value="发表" />
-    </form>
+<script src="/lib/editor/Markdown.Converter.js"></script>
+<script src="/lib/editor/Markdown.Sanitizer.js"></script>
+<script src="/lib/editor/Markdown.Editor.js"></script>
+<script src="/lib/editor/prettify.js"></script>
+<script src="/lib/editor/Markdown.Extra.js"></script>
+<div class='content' onload="prettyPrint()">
+	<form id='create_topic_form' action='<%= (typeof(action) !== 'undefined' && action === 'edit') ? ('/topic/' + id + '/edit') : '/topic/create' %>' method='post'>
+		<div class="input-group">
+			<span class="input-group-addon">标题：</span>
+			<input type="text"  name='title' value='<%= typeof(title) !== 'undefined' && title || '' %>'  class="form-control" placeholder="Username">
+		</div>
+
+		分类：<br />
+		<select name="category" id="tab-value">
+			<option value="">请选择</option>
+			<%
+				var categoryValue = '';
+				if (typeof(category) !== 'undefined') {
+					categoryValue = category;
+				}
+				config.categories.forEach(function (pair) {
+					var value = pair[0];
+					var text = pair[1];
+			%>
+				<option value="<%=value%>" <%= categoryValue === value ? 'selected': '' %>><%=text%></option>
+			<%});%>
+		</select><br />
+		标签：<br />
+		<input type="text" name="tag" value='<%=(typeof(tag) === 'undefined') ? '' : tag %>'/><br />
+		正文：<br />
+
+		<div class="wmd-panel">
+		<div id="wmd-button-bar"></div>
+		<textarea class="wmd-input" id="wmd-input" name="content" rows="20">
+			<%= typeof(content)!== 'undefined' && content || '' %><
+		</textarea>
+		</div>
+		<input type="submit" value="发表" />
+	</form>
 </div>
+
+<div id="wmd-preview" class="wmd-panel wmd-preview"></div>
+
+<br /> <br />
+
+<script type="text/javascript">
+	(function () {
+
+		var converter = Markdown.getSanitizingConverter();
+		Markdown.Extra.init(converter, {
+		  extensions: "all",
+		  highlighter: "prettify"
+		});
+
+		var editor = new Markdown.Editor(converter);
+		editor.hooks.chain("onPreviewRefresh", prettyPrint);
+		editor.run();
+	})();
+</script>

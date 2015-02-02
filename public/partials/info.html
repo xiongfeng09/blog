@@ -4,13 +4,13 @@
             <div>{{topic.title}}</div>
             <div class='time'>发布于 {{topic.create_at}}</div>
             <a href="/topic/{{topic._id}}/edit">edit</a>
+            <a href="/topic/{{topic._id}}/delete">delete</a>
         </div>
 
         <div class="changes">
             <span>{{ topic.visit_count }} 次浏览</span>
             <span> 标签【{{ topic.tag }}】</span>
         </div>
-
         <div class='inner topic'>
             <section ng-bind-html="topic.contentHtml"></section>
         </div>

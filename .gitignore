@@ -2,3 +2,4 @@ node_modules
 public/upload/*
 public/bower_components/*
 
+public/lib/angular/*

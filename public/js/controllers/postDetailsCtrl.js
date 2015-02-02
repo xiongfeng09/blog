@@ -2,24 +2,27 @@
 
 app.factory("MarkDownConverter", function(){
 	var converter = Markdown.getSanitizingConverter();
-
-	converter.hooks.chain("preBlockGamut", function (text, rbg) {
-		return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
-			return "<blockquote>" + rbg(inner) + "</blockquote>\n";
-		});
+	var Extra = Markdown.Extra.init(converter, {
+		extensions: "all",
+		highlighter: "prettify"
 	});
-        
-	return converter;
+
+	return Extra.converter;
 });
 
-app.controller('TopicDetail', function($scope, $routeParams, blogService, $location, MarkDownConverter) {
-	$scope.preview = null;
-
+app.controller('TopicDetail', function($scope, $routeParams, blogService, $location, MarkDownConverter, $sce, $timeout) {
 	blogService.getTopic($routeParams.topicId)
 	.success(function (topic, status, headers, config) {
-		console.log(topic.content)
-		console.log(MarkDownConverter.makeHtml(topic.content))
-		topic.contentHtml = MarkDownConverter.makeHtml(topic.content)
-		$scope.topic = topic
+		if(topic) {
+			topic.contentHtml = $sce.trustAsHtml(MarkDownConverter.makeHtml(topic.content));
+			$scope.topic = topic
+
+			$scope.$watch('topic.contentHtml',function(newValue,oldValue, scope){
+				console.log("watch")
+				window.prettyPrint()
+			});
+		} else {
+			 $location.path("/");
+		}
 	})
 });

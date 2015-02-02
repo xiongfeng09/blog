@@ -24,7 +24,7 @@ app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/topic/:topicId', 
 		{
 			controller: 'TopicDetail',
-			templateUrl: 'partials/topic-info.html'
+			templateUrl: 'partials/info.html'
 		}
 	) 
 }]);

@@ -169,23 +169,20 @@ exports.delete = function (req, res) {
 //info
 exports.infoJson = function (req, res) {
     var topic_id = req.params.tid;
-    if (topic_id.length !== 24) {
-        req.flash('error',  '此话题不存在或已被删除。')
-        return res.redirect('/');
-    }
+
     Topic.getTopicById(topic_id, function(error, topic){
-        if (error) {
-            req.flash('error',  '此话题不存在或已被删除。')
-            return res.redirect('/');
+        if (topic) {
+            topic.visit_count += 1;
+            topic.save();
+
+            // format date
+            topic.friendly_create_at = tools.formatDate(topic.create_at, true);
+            topic.friendly_update_at = tools.formatDate(topic.update_at, true);
+            
+            return res.send (topic);
+        } else {
+            return res.send (null);
         }
-        topic.visit_count += 1;
-        topic.save();
-
-        // format date
-        topic.friendly_create_at = tools.formatDate(topic.create_at, true);
-        topic.friendly_update_at = tools.formatDate(topic.update_at, true);
-
-        res.send (topic);
     });
 };
 

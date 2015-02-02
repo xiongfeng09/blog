@@ -6,6 +6,7 @@
 		<title>Blog</title>
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/demo.css" />
+		<link rel="stylesheet" href="css/prettify.css" />
 	</head>
 	<body>
 		<div class="container clearfix">
@@ -15,8 +16,7 @@
 					<br/>
 					<div>
 						<ul class="nav-stack">
-							<li class="active"><a href="#tags">index</a></li>
-							<li class="" ng-repeat="category in categories_config"><a href="#{{category.en}}">{{category.ch}}</a></li>
+							<li class="" ng-repeat="category in categories_config" ng-class="{0: 'active'}[$index]"><a href="#{{category.en}}">{{category.ch}}</a></li>
 							<li class=""><a href="#tags">标签</a></li>
 							<li class=""><a class="pjaxlink" href="#tags">归档</a></li>
 							<li class=""><a class="pjaxlink" href="#tags">关于</a></li>
@@ -25,7 +25,7 @@
 				</div>
 				<div class="aside2">
 					<div class="tab-content">
-						<div class="tab-pane" ng-repeat="category in categories" id="{{category.name}}">
+						<div class="tab-pane" ng-repeat="category in categories" id="{{category.name}}" ng-class="{0: 'active'}[$index]">
 							<div class="list-group">
 								<h2 class="center">{{category.name}}</h2>
 								<a href="#/topic/{{topic._id}}" ng-repeat="topic in category.topics" class="list-group-item pjaxlink">{{topic.title}}</a>
@@ -64,6 +64,8 @@
         
 	<script src="lib/editor/Markdown.Converter.js"></script>
 	<script src="lib/editor/Markdown.Sanitizer.js"></script>
+	<script src="lib/editor/prettify.js"></script>
+	<script src="lib/editor/Markdown.Extra.js"></script>
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
