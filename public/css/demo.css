@@ -10,12 +10,18 @@ blockquote {
 	background: #d0f0ff;
 }
 
+
+.content img {
+	max-width: 100%;
+}
+
+.wmd-panel,#wmd-preview {
+	float: left;
+}
+
 .wmd-panel
 {
-	margin-left: 25%;
-	margin-right: 25%;
 	width: 50%;
-	min-width: 500px;
 }
 
 .wmd-button-bar 
@@ -26,15 +32,14 @@ blockquote {
 
 .wmd-input 
 { 
-	height: 300px;
+	height: 800px;
 	width: 100%;
-	background-color: Gainsboro;
 	border: 1px solid DarkGray;
 }
 
 .wmd-preview 
 { 
-	background-color: #c0e0ff; 
+	height: 800px;
 }
 
 .wmd-button-row 
@@ -92,9 +97,6 @@ blockquote {
 {
     left: 300px;
 }
-
-
-
 
 .wmd-prompt-background
 {

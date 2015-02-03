@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
 		<title>Blog</title>
+		<link rel="stylesheet" href="css/bootstrap.css" />
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/demo.css" />
 		<link rel="stylesheet" href="css/prettify.css" />
@@ -73,9 +74,18 @@
 				if ($(".nav").hasClass("visible")) {
 					$(".nav").removeClass("visible").addClass("hide");
 					$(".content").removeClass("content-sm").addClass("content-lg");
+
+					$(".aside3-content")
+						.removeClass("col-md-12")
+						.addClass("col-md-10").addClass("col-lg-8").addClass("col-md-offset-1").addClass("col-lg-offset-2")
 				}else{
 					$(".nav").addClass("visible").removeClass("hide");
 					$(".content").addClass("content-sm").removeClass("content-lg");
+
+					$(".aside3-content")
+						.addClass("col-md-12")
+						.removeClass("col-md-10").removeClass("col-lg-8")
+						.removeClass("col-md-offset-1").removeClass("col-lg-offset-2")
 				};
 			});
 			$(document).on("click", ".nav-stack>li", function() {
@@ -90,6 +100,10 @@
 				}else{
 					$(id).show().parent().siblings(".panel").children(".panel-info").hide()
 				}
+			});
+			$(document).on("click", ".pjaxlink", function(){
+				$(".nav").addClass("visible").removeClass("hide");
+				$(".content").addClass("content-sm").removeClass("content-lg");
 			});
 		})
 	</script>
