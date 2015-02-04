@@ -1,0 +1,42 @@
+table {
+	width: 100%;
+	overflow: auto;
+	word-break: normal;
+	margin-bottom: 20px;
+
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border-spacing: 2px;
+	border-color: gray;
+}
+thead {
+	display: table-header-group;
+	vertical-align: middle;
+	border-color: inherit;
+}
+body table tr {
+	background-color: #fff;
+	border-top: 1px solid #ccc;
+}
+body table th, table td {
+	padding: 6px 13px;
+	border: 1px solid #ddd;
+}
+body table th {
+	font-weight: bold;
+}
+tbody {
+	display: table-row-group;
+	vertical-align: middle;
+	border-color: inherit;
+}
+
+blockquote {
+	padding: 10px 15px;
+	border-left-style: solid;
+	border-left-width: 10px;
+	border-color: #D6DBDF;
+	background: none repeat scroll 0 0 rgba(102,128,153,.05);
+}

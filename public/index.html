@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/demo.css" />
 		<link rel="stylesheet" href="css/prettify.css" />
+		<link rel="stylesheet" href="css/prettify-extra.css" />
 	</head>
 	<body>
 		<div class="container clearfix">
@@ -17,10 +18,9 @@
 					<br/>
 					<div>
 						<ul class="nav-stack">
-							<li class="" ng-repeat="category in categories_config" ng-class="{0: 'active'}[$index]"><a href="#{{category.en}}">{{category.ch}}</a></li>
-							<li class=""><a href="#tags">标签</a></li>
-							<li class=""><a class="pjaxlink" href="#tags">归档</a></li>
-							<li class=""><a class="pjaxlink" href="#tags">关于</a></li>
+							<li class="normal" ng-repeat="category in config_categories;" ng-class="{0: 'active'}[$index]"><a data-show="#{{category[0]}}">{{category[1]}}</a></li>
+							<li class="normal"><a data-show="#tags">标签</a></li>
+							<li class="other"><a class="pjaxlink" href="#about">关于</a></li>
 						</ul>
 					</div>
 				</div>
@@ -37,7 +37,7 @@
 								<h2 class="center">标签</h2>
 								<div class="panel" ng-repeat="tag in tags">
 									<div class="panel-heading">
-										<a href="#{{tag.name}}">
+										<a data-show="#{{tag.name}}">
 											<span class="panel-title">{{tag.name}}</span>
 											<span class="badge">{{tag.count}}</span>
 										</a>
@@ -77,8 +77,9 @@
 
 					$(".aside3-content")
 						.removeClass("col-md-12")
-						.addClass("col-md-10").addClass("col-lg-8").addClass("col-md-offset-1").addClass("col-lg-offset-2")
-				}else{
+						.addClass("col-md-10").addClass("col-lg-8")
+						.addClass("col-md-offset-1").addClass("col-lg-offset-2")
+				} else {
 					$(".nav").addClass("visible").removeClass("hide");
 					$(".content").addClass("content-sm").removeClass("content-lg");
 
@@ -88,13 +89,16 @@
 						.removeClass("col-md-offset-1").removeClass("col-lg-offset-2")
 				};
 			});
-			$(document).on("click", ".nav-stack>li", function() {
+			$(document).on("click", ".nav-stack .normal", function() {
 				$(this).addClass("active").siblings().removeClass("active");
-				var href=$(this).children("a").attr("href");
-				$(href).addClass("active").siblings().removeClass("active");
+				var id=$(this).children("a").attr("data-show");
+				$(id).addClass("active").siblings().removeClass("active");
+			});
+			$(document).on("click", ".nav-stack .other", function() {
+				$(this).addClass("active").siblings().removeClass("active");
 			});
 			$(document).on("click", ".panel-heading>a", function(){
-				var id=$(this).attr("href");
+				var id=$(this).attr("data-show");
 				if ($(id).is(":visible")==true) {
 					$(id).hide()
 				}else{

@@ -51,7 +51,7 @@ exports.create = function (req, res) {
 		}
 
 		req.flash('success', '记录成功!');
-		res.redirect('/topic/' + topic._id);
+		res.redirect('/#/topic/' + topic._id);
 	});
 	};
 
@@ -136,7 +136,7 @@ exports.edit = function (req, res) {
 		topic.save();
 
 		req.flash('success', '修改成功!');
-		res.redirect('/topic/' + topic._id);
+		res.redirect('/#/topic/' + topic._id);
 	});
 };
 
@@ -322,6 +322,7 @@ exports.getNavs =  function(req, res) {
 	 var ep = eventproxy.create("categories", "tags", function (categories, tags) {
 		 navs.categories = categories;
 		 navs.tags = tags;
+		 navs.config_categories = config.categories;
 		 res.send(navs);
 	 });
 	 Topic.groupByTag(function(err, results) {

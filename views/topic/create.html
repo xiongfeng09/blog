@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="/css/bootstrap.css" />
 <link rel="stylesheet" href="/css/demo.css" />
 <link rel="stylesheet" href="/css/prettify.css" />
+<link rel="stylesheet" href="/css/prettify-extra.css" />
 
 <script src="/lib/editor/Markdown.Converter.js"></script>
 <script src="/lib/editor/Markdown.Sanitizer.js"></script>
@@ -42,9 +43,7 @@
 
 		<div class="wmd-panel">
 			<div id="wmd-button-bar"></div>
-			<textarea class="wmd-input" id="wmd-input" name="content">
-				<%= typeof(content)!== 'undefined' && content || '' %>
-			</textarea>
+			<textarea class="wmd-input" id="wmd-input" name="content"><%= typeof(content)!== 'undefined' && content || '' %></textarea>
 		</div>
 		<div id="wmd-preview" class="wmd-panel wmd-preview"></div>
 	</form>

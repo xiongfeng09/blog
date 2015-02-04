@@ -18,6 +18,10 @@ blockquote {
 .wmd-panel,#wmd-preview {
 	float: left;
 }
+.wmd-input, .wmd-preview {
+	height: 500px;
+	overflow: auto;
+}
 
 .wmd-panel
 {
@@ -32,14 +36,13 @@ blockquote {
 
 .wmd-input 
 { 
-	height: 800px;
 	width: 100%;
 	border: 1px solid DarkGray;
 }
 
 .wmd-preview 
 { 
-	height: 800px;
+	margin-top: 35px;
 }
 
 .wmd-button-row 

@@ -1,13 +1,13 @@
 'use strict';
 
-app.controller('NavCtrl', function($scope, blogService, config) {
-    $scope.close = function() {
-    $mdSidenav('left').close()
-    };
-    $scope.categories_config = config.categories;
-    $scope.navs = blogService.getNavs()
-    .success(function (navs, status, headers, config) {
-        $scope.categories = navs.categories;
-        $scope.tags = navs.tags;
-    })
+app.controller('NavCtrl', function($scope, blogService) {
+	$scope.close = function() {
+		$mdSidenav('left').close()
+	};
+	blogService.getNavs()
+	.success(function (navs, status, headers) {
+		$scope.config_categories = navs.config_categories;
+		$scope.categories = navs.categories;
+		$scope.tags = navs.tags;
+	})
 });

@@ -37,6 +37,7 @@ a, a:hover, a:active {
     width: 30%;
     float: left;
     height: 100%;
+    box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
     transition: width 2s;
     -moz-transition: width 2s;
     /* Firefox 4 */
@@ -61,10 +62,11 @@ a, a:hover, a:active {
     height: 100%;
     text-align: center;
 }
-.nav .aside1 .logo {
-    height: 15%;
-    background-color: #428bca;
-    width: 100%;
+.nav .aside1 .logo,
+.welcome {
+    height: 64px;
+    background-color: rgb(63,81,181);
+    color: rgba(255,255,255,0.87);
 }
 .nav .aside1 .nav-stack {
     list-style: none;
@@ -76,6 +78,7 @@ a, a:hover, a:active {
     color: #b3b3b3;
     padding: 10px 15px;
     display: block;
+    cursor: pointer;
 }
 .nav-stack .active, .nav-stack>li:hover {
     color: #2a6496;
@@ -86,7 +89,6 @@ a, a:hover, a:active {
     height: 100%;
     width: 75%;
     float: left;
-    border-right: 2px solid #18bc9c;
     overflow-y: auto;
 }
 .aside2 .tab-content .active {
@@ -114,7 +116,6 @@ a.list-group-item {
     border-radius: 4px;
     border: 1px solid #bce8f1;
     margin-bottom: 3px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     background-color: #fff;
 }
 .panel>.panel-heading {
@@ -129,6 +130,7 @@ a.list-group-item {
     display: block;
     width: 100%;
     color: inherit;
+    cursor: pointer;
 }
 .panel-heading .badge {
     color: #d9edf7;
@@ -190,15 +192,16 @@ a.list-group-item {
 }
 #align-justify {
     font-family: 'Glyphicons Halflings';
-    font-size: 35px;
-    color: blue;
+    font-size: 24px;
+    color: #fff;
     position: fixed;
-    right: 10px;
+    right: 20px;
     top: 10px;
     line-height: 1;
-    background: white;
-    padding: 5px;
+    background: #428bca;
+    padding: 8px 10px;
     cursor: pointer;
+    border-radius: 5px;
 }
 #align-justify:before {
     content: "\e055";
