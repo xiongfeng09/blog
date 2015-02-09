@@ -2,7 +2,9 @@
 
 /* Services */
 app.service('blogService', function ($http, $location) {
-
+	this.isAdmin = function () {
+		return $http.get('/isAdmin');
+	}
 	this.getNavs = function () {
  		return $http.get('/api/getNavs');
 	}

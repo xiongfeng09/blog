@@ -18,18 +18,15 @@ app.controller('TopicDetail', function($scope, $routeParams, blogService, $locat
 			$scope.topic = topic
 
 			$scope.$watch('topic.contentHtml',function(newValue,oldValue, scope){
-				console.log("watch")
 				$("pre").addClass("prettyprint")
-				console.log($("code"))
-				// $.each($("code"), function(i, elem) {
-				// 	var elem = $(elem);
-				// 	console.log(elem.attr("class"))
-				// 	if(!elem.attr("class")) elem.addClass("scala");
-				// })
 				window.prettyPrint()
 			});
 		} else {
 			 $location.path("/");
 		}
+	})
+
+	blogService.isAdmin().success(function (user, status, headers, config) {
+		$scope.isAdmin = user.isAdmin
 	})
 });

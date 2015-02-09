@@ -7,8 +7,11 @@
 				<span>{{ topic.visit_count }} 次浏览</span>
 				<span> 标签【{{ topic.tag }}】</span>
 			</div>
-			<a href="/topic/{{topic._id}}/edit">edit</a>
-			<a href="/topic/{{topic._id}}/delete">delete</a>
+			
+			<div ng-show="isAdmin" >
+				<a href="/topic/{{topic._id}}/edit">edit</a>
+				<a href="/topic/{{topic._id}}/delete">delete</a>
+			</div>
 		</div>
 		<div class='aside3-content col-md-12'>
 			<section ng-bind-html="topic.contentHtml"></section>

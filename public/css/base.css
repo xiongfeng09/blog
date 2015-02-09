@@ -62,11 +62,22 @@ a, a:hover, a:active {
     height: 100%;
     text-align: center;
 }
+
+
 .nav .aside1 .logo,
 .welcome {
     height: 64px;
-    background-color: rgb(63,81,181);
     color: rgba(255,255,255,0.87);
+}
+.nav .logo img {
+    width: 60px;
+    height: 60px;
+    margin: 20px auto 0;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: 100px 100px;
+    overflow: hidden;
+    display: block;
 }
 .nav .aside1 .nav-stack {
     list-style: none;
