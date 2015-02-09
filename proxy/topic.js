@@ -81,9 +81,9 @@ exports.getTags = function (callback) {
 };
 
 exports.groupByTag = function(callback) {
-    Topic.aggregate().group({ '_id': '$tag', 'count': {'$sum': 1}, 'topics':{'$push': '$$ROOT'}}).exec(callback);
+    Topic.aggregate().group({ "_id": "$tag", "count": {"$sum": 1}, "topics":{"$push": "$$ROOT"}}).exec(callback);
 };
 
 exports.groupByCategory = function(callback) {
-    Topic.aggregate().group({ '_id': '$category', 'count': {'$sum': 1}, 'topics':{'$push': '$$ROOT'}}).exec(callback);
+    Topic.aggregate().group({ "_id": "$category", "count": {"$sum": 1}, "topics":{"$push": "$$ROOT"}}).exec(callback);
 };
