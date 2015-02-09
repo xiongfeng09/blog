@@ -292,7 +292,7 @@ var getNavs = function(callback) {
     });
     Topic.groupByTag(function(err, results) {
         var tags = [];
-        if (tags) {
+        if (results) {
             results.forEach(function(result) {
                 var record = {};
                 record.name = result._id;
@@ -307,7 +307,7 @@ var getNavs = function(callback) {
 
     Topic.groupByCategory(function(err, results) {
         var categories = [];
-        if (categories) {
+        if (results) {
             results.forEach(function(result) {
                 var record = {};
                 record.name = result._id;
