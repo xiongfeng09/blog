@@ -292,25 +292,30 @@ var getNavs = function(callback) {
     });
     Topic.groupByTag(function(err, results) {
         var tags = [];
-        results.forEach(function(result) {
-            var record = {};
-            record.name = result._id;
-            record.count = result.count;
-            record.topics = result.topics;
-            tags.push(record);
-        })
+        if (tags) {
+            results.forEach(function(result) {
+                var record = {};
+                record.name = result._id;
+                record.count = result.count;
+                record.topics = result.topics;
+                tags.push(record);
+            })
+        }
+
         ep.emit("tags", tags);
     });
 
     Topic.groupByCategory(function(err, results) {
         var categories = [];
-        results.forEach(function(result) {
-            var record = {};
-            record.name = result._id;
-            record.count = result.count;
-            record.topics = result.topics;
-            categories.push(record);
-        })
+        if (categories) {
+            results.forEach(function(result) {
+                var record = {};
+                record.name = result._id;
+                record.count = result.count;
+                record.topics = result.topics;
+                categories.push(record);
+            })
+        }
         ep.emit("categories", categories);
     });
 };
