@@ -8,11 +8,11 @@ module.exports = function(app) {
 
 
     app.get('/m/', topic.list);
-    app.get('/register', checkNotLogin);
-    app.get('/register', user.showRegister); // 跳转到注册页面
+    // app.get('/register', checkNotLogin);
+    // app.get('/register', user.showRegister); // 跳转到注册页面
 
-    app.post('/register', checkNotLogin);
-    app.post('/register', user.register); //  注册页面
+    // app.post('/register', checkNotLogin);
+    // app.post('/register', user.register); //  注册页面
 
     app.get('/login', checkNotLogin);
     app.get('/login', user.showLogin);

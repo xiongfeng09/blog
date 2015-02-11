@@ -340,8 +340,6 @@ exports.getNavs = function(req, res) {
     });
     Topic.groupByTag(function(err, results) {
         var tags = [];
-        console.log("tag ")
-        console.log(typeof(results))
         if (results) {
             results.forEach(function(result) {
                 var record = {};
@@ -356,8 +354,6 @@ exports.getNavs = function(req, res) {
 
     Topic.groupByCategory(function(err, results) {
         var categories = [];
-        console.log("categories ")
-        console.log(typeof(results))
         if (results) {
             results.forEach(function(result) {
                 var record = {};
