@@ -325,44 +325,15 @@ exports.setNavs = function(app) {
         app.locals.navs = mcache.get('navs')
     } else {
         getNavs(function(navs) {
+            navs.config_categories = config.categories;
             app.locals.navs = navs;
         });
     }
 };
 
 exports.getNavs = function(req, res) {
-    var navs = {};
-    var ep = eventproxy.create("categories", "tags", function(categories, tags) {
-        navs.categories = categories;
-        navs.tags = tags;
+    getNavs(function(navs) {
         navs.config_categories = config.categories;
         res.send(navs);
-    });
-    Topic.groupByTag(function(err, results) {
-        var tags = [];
-        if (results) {
-            results.forEach(function(result) {
-                var record = {};
-                record.name = result._id;
-                record.count = result.count;
-                record.topics = result.topics;
-                tags.push(record);
-            })
-        }
-        ep.emit("tags", tags);
-    });
-
-    Topic.groupByCategory(function(err, results) {
-        var categories = [];
-        if (results) {
-            results.forEach(function(result) {
-                var record = {};
-                record.name = result._id;
-                record.count = result.count;
-                record.topics = result.topics;
-                categories.push(record);
-            })
-        }
-        ep.emit("categories", categories);
     });
 }
