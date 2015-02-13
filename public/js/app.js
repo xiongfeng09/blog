@@ -7,5 +7,10 @@ app.config(['$routeProvider', function($routeProvider) {
 			controller: 'TopicDetail',
 			templateUrl: 'partials/info.html'
 		}
+	) .when('/',
+		{
+			controller: 'TopicLatest',
+			templateUrl: 'partials/info.html'
+		}
 	) 
 }]);

@@ -4,6 +4,7 @@ var user = require('./user');
 module.exports = function(app) {
     app.get("/isAdmin", user.isAdmin);
     app.get("/api/getNavs", topic.getNavs);
+    app.get("/api/latest/topic", topic.latest);
     app.get('/api/topic/:tid', topic.infoJson);
 
 

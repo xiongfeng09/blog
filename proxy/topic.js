@@ -16,6 +16,10 @@ exports.getTopicById = function (id, callback) {
   Topic.findOne({_id: id}, callback)
 };
 
+exports.getLatestTopic = function (callback) {
+  Topic.findOne({}, {}, {sort: '-create_at'}, callback);
+};
+
 /**
  * 获取关键词能搜索到的主题数量
  * Callback:

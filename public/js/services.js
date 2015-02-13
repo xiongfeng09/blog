@@ -11,4 +11,7 @@ app.service('blogService', function ($http, $location) {
 	this.getTopic = function (id) {
 		return $http.get('/api/topic/' + id);
 	}
+	this.getLatestTopic = function () {
+		return $http.get('/api/latest/topic');
+	}
 }); 

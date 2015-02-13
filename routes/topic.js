@@ -166,20 +166,37 @@ exports.delete = function(req, res) {
     });
 };
 
+//latest info
+exports.latest = function(req, res) {
+    Topic.getLatestTopic(function(error, topic) {
+        if (topic) {
+            topic.visit_count += 1;
+            topic.save();
+
+            // format date
+            var topicJson = topic.toJSON();
+            topicJson.friendly_create_at = tools.formatDate(topicJson.create_at, true);
+            topicJson.friendly_update_at = tools.formatDate(topicJson.update_at, true);
+            res.send(topicJson);
+        } else {
+            return res.send(null);
+        }
+    });
+};
+
 //info
 exports.infoJson = function(req, res) {
     var topic_id = req.params.tid;
-
     Topic.getTopicById(topic_id, function(error, topic) {
         if (topic) {
             topic.visit_count += 1;
             topic.save();
 
             // format date
-            topic.friendly_create_at = tools.formatDate(topic.create_at, true);
-            topic.friendly_update_at = tools.formatDate(topic.update_at, true);
-
-            return res.send(topic);
+            var topicJson = topic.toJSON();
+            topicJson.friendly_create_at = tools.formatDate(topicJson.create_at, true);
+            topicJson.friendly_update_at = tools.formatDate(topicJson.update_at, true);
+            res.send(topicJson);
         } else {
             return res.send(null);
         }
@@ -312,7 +329,7 @@ var getNavs = function(callback) {
                 var record = {};
                 record.name = result._id;
                 record.count = result.count;
-                record.topics = result.topics;
+                record.topics = result.topics.reverse();
                 categories.push(record);
             })
         }
